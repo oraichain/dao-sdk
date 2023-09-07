@@ -1,0 +1,16 @@
+{
+  "name": "@oraichain/dao-sdk",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "license": "MIT",
+  "files": [
+    "build/"
+  ],
+  "dependencies": {
+    "@oraichain/dao-contracts-build": "1.0.0",
+    "@oraichain/dao-contracts-sdk": "1.0.0"
+  },
+  "devDependencies": {
+    "@oraichain/cw-simulate": "^2.8.56"
+  }
+}

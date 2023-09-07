@@ -1,4 +1,33 @@
-import {Duration, PreProposeInfo, Admin, Binary, VotingStrategy, PercentageThreshold, Decimal, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, MultipleChoiceOptions, MultipleChoiceOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, MultipleChoiceVote, Addr, VoteInfo, ContractVersion, MultipleChoiceOptionType, Expiration, Status, MultipleChoiceProposal, CheckedMultipleChoiceOption, MultipleChoiceVotes, ProposalCreationPolicy} from "./types";
+import {Binary, Decimal, Uint128, Timestamp, Uint64, Addr} from "./types";
+export type Duration = {
+  height: number;
+} | {
+  time: number;
+};
+export type PreProposeInfo = {
+  anyone_may_propose: {};
+} | {
+  module_may_propose: {
+    info: ModuleInstantiateInfo;
+  };
+};
+export type Admin = {
+  address: {
+    addr: string;
+  };
+} | {
+  core_module: {};
+};
+export type VotingStrategy = {
+  single_choice: {
+    quorum: PercentageThreshold;
+  };
+};
+export type PercentageThreshold = {
+  majority: {};
+} | {
+  percent: Decimal;
+};
 export interface InstantiateMsg {
   allow_revoting: boolean;
   close_proposal_on_execution_failure: boolean;
@@ -7,6 +36,12 @@ export interface InstantiateMsg {
   only_members_execute: boolean;
   pre_propose_info: PreProposeInfo;
   voting_strategy: VotingStrategy;
+}
+export interface ModuleInstantiateInfo {
+  admin?: Admin | null;
+  code_id: number;
+  label: string;
+  msg: Binary;
 }
 export type ExecuteMsg = {
   propose: {
@@ -65,6 +100,141 @@ export type ExecuteMsg = {
     address: string;
   };
 };
+export type CosmosMsgForEmpty = {
+  bank: BankMsg;
+} | {
+  custom: Empty;
+} | {
+  staking: StakingMsg;
+} | {
+  distribution: DistributionMsg;
+} | {
+  stargate: {
+    type_url: string;
+    value: Binary;
+  };
+} | {
+  ibc: IbcMsg;
+} | {
+  wasm: WasmMsg;
+} | {
+  gov: GovMsg;
+};
+export type BankMsg = {
+  send: {
+    amount: Coin[];
+    to_address: string;
+  };
+} | {
+  burn: {
+    amount: Coin[];
+  };
+};
+export type StakingMsg = {
+  delegate: {
+    amount: Coin;
+    validator: string;
+  };
+} | {
+  undelegate: {
+    amount: Coin;
+    validator: string;
+  };
+} | {
+  redelegate: {
+    amount: Coin;
+    dst_validator: string;
+    src_validator: string;
+  };
+};
+export type DistributionMsg = {
+  set_withdraw_address: {
+    address: string;
+  };
+} | {
+  withdraw_delegator_reward: {
+    validator: string;
+  };
+};
+export type IbcMsg = {
+  transfer: {
+    amount: Coin;
+    channel_id: string;
+    timeout: IbcTimeout;
+    to_address: string;
+  };
+} | {
+  send_packet: {
+    channel_id: string;
+    data: Binary;
+    timeout: IbcTimeout;
+  };
+} | {
+  close_channel: {
+    channel_id: string;
+  };
+};
+export type WasmMsg = {
+  execute: {
+    contract_addr: string;
+    funds: Coin[];
+    msg: Binary;
+  };
+} | {
+  instantiate: {
+    admin?: string | null;
+    code_id: number;
+    funds: Coin[];
+    label: string;
+    msg: Binary;
+  };
+} | {
+  migrate: {
+    contract_addr: string;
+    msg: Binary;
+    new_code_id: number;
+  };
+} | {
+  update_admin: {
+    admin: string;
+    contract_addr: string;
+  };
+} | {
+  clear_admin: {
+    contract_addr: string;
+  };
+};
+export type GovMsg = {
+  vote: {
+    proposal_id: number;
+    vote: VoteOption;
+  };
+};
+export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
+export interface MultipleChoiceOptions {
+  options: MultipleChoiceOption[];
+}
+export interface MultipleChoiceOption {
+  description: string;
+  msgs: CosmosMsgForEmpty[];
+  title: string;
+}
+export interface Coin {
+  amount: Uint128;
+  denom: string;
+}
+export interface Empty {}
+export interface IbcTimeout {
+  block?: IbcTimeoutBlock | null;
+  timestamp?: Timestamp | null;
+}
+export interface IbcTimeoutBlock {
+  height: number;
+  revision: number;
+}
+export interface MultipleChoiceVote {
+  option_id: number;
+}
 export type QueryMsg = {
   config: {};
 } | {
@@ -127,9 +297,28 @@ export interface Config {
 export interface VoteResponse {
   vote?: VoteInfo | null;
 }
+export interface VoteInfo {
+  power: Uint128;
+  rationale?: string | null;
+  vote: MultipleChoiceVote;
+  voter: Addr;
+}
 export interface InfoResponse {
   info: ContractVersion;
 }
+export interface ContractVersion {
+  contract: string;
+  version: string;
+}
+export type MultipleChoiceOptionType = "standard" | "none";
+export type Expiration = {
+  at_height: number;
+} | {
+  at_time: Timestamp;
+} | {
+  never: {};
+};
+export type Status = "open" | "rejected" | "passed" | "executed" | "closed" | "execution_failed";
 export interface ProposalListResponse {
   proposals: ProposalResponse[];
 }
@@ -137,9 +326,41 @@ export interface ProposalResponse {
   id: number;
   proposal: MultipleChoiceProposal;
 }
+export interface MultipleChoiceProposal {
+  allow_revoting: boolean;
+  choices: CheckedMultipleChoiceOption[];
+  description: string;
+  expiration: Expiration;
+  min_voting_period?: Expiration | null;
+  proposer: Addr;
+  start_height: number;
+  status: Status;
+  title: string;
+  total_power: Uint128;
+  votes: MultipleChoiceVotes;
+  voting_strategy: VotingStrategy;
+}
+export interface CheckedMultipleChoiceOption {
+  description: string;
+  index: number;
+  msgs: CosmosMsgForEmpty[];
+  option_type: MultipleChoiceOptionType;
+  title: string;
+  vote_count: Uint128;
+}
+export interface MultipleChoiceVotes {
+  vote_weights: Uint128[];
+}
 export interface VoteListResponse {
   votes: VoteInfo[];
 }
+export type ProposalCreationPolicy = {
+  anyone: {};
+} | {
+  module: {
+    addr: Addr;
+  };
+};
 export interface HooksResponse {
   hooks: string[];
 }

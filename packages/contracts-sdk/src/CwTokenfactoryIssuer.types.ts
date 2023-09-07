@@ -1,4 +1,4 @@
-import {Uint128, Metadata, DenomUnit, SudoMsg, Coin, StatusInfo, AllowanceInfo} from "./types";
+import {Uint128} from "./types";
 export type InstantiateMsg = {
   new_token: {
     subdenom: string;
@@ -78,6 +78,19 @@ export type ExecuteMsg = {
     to_address: string;
   };
 };
+export interface Metadata {
+  base: string;
+  denom_units: DenomUnit[];
+  description: string;
+  display: string;
+  name: string;
+  symbol: string;
+}
+export interface DenomUnit {
+  aliases: string[];
+  denom: string;
+  exponent: number;
+}
 export type QueryMsg = {
   is_frozen: {};
 } | {
@@ -148,8 +161,23 @@ export type QueryMsg = {
     start_after?: string | null;
   };
 };
+export type SudoMsg = {
+  block_before_send: {
+    amount: Coin;
+    from: string;
+    to: string;
+  };
+};
+export interface Coin {
+  amount: Uint128;
+  denom: string;
+}
 export interface BlacklisteesResponse {
   blacklistees: StatusInfo[];
+}
+export interface StatusInfo {
+  address: string;
+  status: boolean;
 }
 export interface BlacklisterAllowancesResponse {
   blacklisters: StatusInfo[];
@@ -159,6 +187,10 @@ export interface AllowanceResponse {
 }
 export interface AllowancesResponse {
   allowances: AllowanceInfo[];
+}
+export interface AllowanceInfo {
+  address: string;
+  allowance: Uint128;
 }
 export interface DenomResponse {
   denom: string;

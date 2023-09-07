@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {Denom, Addr, StakeChangedHookMsg, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, RewardConfig, OwnershipForAddr} from "./types";
-import {InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, PendingRewardsResponse, InfoResponse, Config} from "./Cw20StakeExternalRewards.types";
+import {Addr, Uint128, Binary, Timestamp, Uint64} from "./types";
+import {Denom, InstantiateMsg, ExecuteMsg, StakeChangedHookMsg, Action, Expiration, Cw20ReceiveMsg, QueryMsg, MigrateMsg, PendingRewardsResponse, InfoResponse, Config, RewardConfig, OwnershipForAddr} from "./Cw20StakeExternalRewards.types";
 export interface Cw20StakeExternalRewardsReadOnlyInterface {
   contractAddress: string;
   info: () => Promise<InfoResponse>;

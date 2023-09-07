@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {Binary, Expiration, Timestamp, Uint64, ExecuteExt, Action, MetadataExt, QueryExt, Approval, Null, OwnershipForString} from "./types";
-import {InstantiateMsg, ExecuteMsg, QueryMsg, AllNftInfoResponseForQueryExt, OwnerOfResponse, NftInfoResponseForQueryExt, OperatorsResponse, TokensResponse, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse, OperatorResponse} from "./Cw721Roles.types";
+import {Binary, Timestamp, Uint64, Null} from "./types";
+import {InstantiateMsg, ExecuteMsg, Expiration, ExecuteExt, Action, MetadataExt, QueryMsg, QueryExt, AllNftInfoResponseForQueryExt, OwnerOfResponse, Approval, NftInfoResponseForQueryExt, OperatorsResponse, TokensResponse, ApprovalResponse, ApprovalsResponse, ContractInfoResponse, MinterResponse, NumTokensResponse, OperatorResponse, OwnershipForString} from "./Cw721Roles.types";
 export interface Cw721RolesReadOnlyInterface {
   contractAddress: string;
   ownerOf: ({

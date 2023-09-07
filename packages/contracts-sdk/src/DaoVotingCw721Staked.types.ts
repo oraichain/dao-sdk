@@ -1,4 +1,37 @@
-import {ActiveThreshold, Uint128, Decimal, NftContract, Binary, Admin, Duration, Cw721ReceiveMsg, Addr, ContractVersion, Boolean, Expiration, Timestamp, Uint64, NftClaim, ArrayOfString} from "./types";
+import {Uint128, Decimal, Binary, Addr, Boolean, Timestamp, Uint64} from "./types";
+export type ActiveThreshold = {
+  absolute_count: {
+    count: Uint128;
+  };
+} | {
+  percentage: {
+    percent: Decimal;
+  };
+};
+export type NftContract = {
+  existing: {
+    address: string;
+  };
+} | {
+  new: {
+    code_id: number;
+    initial_nfts: Binary[];
+    label: string;
+    msg: Binary;
+  };
+};
+export type Admin = {
+  address: {
+    addr: string;
+  };
+} | {
+  core_module: {};
+};
+export type Duration = {
+  height: number;
+} | {
+  time: number;
+};
 export interface InstantiateMsg {
   active_threshold?: ActiveThreshold | null;
   nft_contract: NftContract;
@@ -31,6 +64,11 @@ export type ExecuteMsg = {
     new_threshold?: ActiveThreshold | null;
   };
 };
+export interface Cw721ReceiveMsg {
+  msg: Binary;
+  sender: string;
+  token_id: string;
+}
 export type QueryMsg = {
   config: {};
 } | {
@@ -77,9 +115,25 @@ export interface HooksResponse {
 export interface InfoResponse {
   info: ContractVersion;
 }
+export interface ContractVersion {
+  contract: string;
+  version: string;
+}
+export type Expiration = {
+  at_height: number;
+} | {
+  at_time: Timestamp;
+} | {
+  never: {};
+};
 export interface NftClaimsResponse {
   nft_claims: NftClaim[];
 }
+export interface NftClaim {
+  release_at: Expiration;
+  token_id: string;
+}
+export type ArrayOfString = string[];
 export interface TotalPowerAtHeightResponse {
   height: number;
   power: Uint128;

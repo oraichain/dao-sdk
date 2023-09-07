@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {TokenInfo, Uint128, Counterparty, Binary, Cw20ReceiveMsg, Addr, CheckedTokenInfo, CheckedCounterparty} from "./types";
-import {InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, StatusResponse} from "./CwTokenSwap.types";
+import {Uint128, Binary, Addr} from "./types";
+import {TokenInfo, InstantiateMsg, Counterparty, ExecuteMsg, Cw20ReceiveMsg, QueryMsg, MigrateMsg, CheckedTokenInfo, StatusResponse, CheckedCounterparty} from "./CwTokenSwap.types";
 export interface CwTokenSwapReadOnlyInterface {
   contractAddress: string;
   status: () => Promise<StatusResponse>;

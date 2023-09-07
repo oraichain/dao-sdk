@@ -1,4 +1,9 @@
-import {Denom, Addr, StakeChangedHookMsg, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, RewardConfig, OwnershipForAddr} from "./types";
+import {Addr, Uint128, Binary, Timestamp, Uint64} from "./types";
+export type Denom = {
+  native: string;
+} | {
+  cw20: Addr;
+};
 export interface InstantiateMsg {
   owner?: string | null;
   reward_duration: number;
@@ -20,6 +25,35 @@ export type ExecuteMsg = {
 } | {
   update_ownership: Action;
 };
+export type StakeChangedHookMsg = {
+  stake: {
+    addr: Addr;
+    amount: Uint128;
+  };
+} | {
+  unstake: {
+    addr: Addr;
+    amount: Uint128;
+  };
+};
+export type Action = {
+  transfer_ownership: {
+    expiry?: Expiration | null;
+    new_owner: string;
+  };
+} | "accept_ownership" | "renounce_ownership";
+export type Expiration = {
+  at_height: number;
+} | {
+  at_time: Timestamp;
+} | {
+  never: {};
+};
+export interface Cw20ReceiveMsg {
+  amount: Uint128;
+  msg: Binary;
+  sender: string;
+}
 export type QueryMsg = {
   info: {};
 } | {
@@ -45,4 +79,14 @@ export interface InfoResponse {
 export interface Config {
   reward_token: Denom;
   staking_contract: Addr;
+}
+export interface RewardConfig {
+  period_finish: number;
+  reward_duration: number;
+  reward_rate: Uint128;
+}
+export interface OwnershipForAddr {
+  owner?: Addr | null;
+  pending_expiry?: Expiration | null;
+  pending_owner?: Addr | null;
 }

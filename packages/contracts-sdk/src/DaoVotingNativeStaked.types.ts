@@ -1,4 +1,18 @@
-import {ActiveThreshold, Uint128, Decimal, Duration, Expiration, Timestamp, Uint64, Claim, Addr, ContractVersion, Boolean} from "./types";
+import {Uint128, Decimal, Timestamp, Uint64, Addr, Boolean} from "./types";
+export type ActiveThreshold = {
+  absolute_count: {
+    count: Uint128;
+  };
+} | {
+  percentage: {
+    percent: Decimal;
+  };
+};
+export type Duration = {
+  height: number;
+} | {
+  time: number;
+};
 export interface InstantiateMsg {
   active_threshold?: ActiveThreshold | null;
   denom: string;
@@ -66,8 +80,19 @@ export interface MigrateMsg {}
 export interface ActiveThresholdResponse {
   active_threshold?: ActiveThreshold | null;
 }
+export type Expiration = {
+  at_height: number;
+} | {
+  at_time: Timestamp;
+} | {
+  never: {};
+};
 export interface ClaimsResponse {
   claims: Claim[];
+}
+export interface Claim {
+  amount: Uint128;
+  release_at: Expiration;
 }
 export interface Config {
   denom: string;
@@ -81,6 +106,10 @@ export interface GetHooksResponse {
 }
 export interface InfoResponse {
   info: ContractVersion;
+}
+export interface ContractVersion {
+  contract: string;
+  version: string;
 }
 export interface ListStakersResponse {
   stakers: StakerBalanceResponse[];

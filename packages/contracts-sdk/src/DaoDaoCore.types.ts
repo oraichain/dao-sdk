@@ -1,4 +1,11 @@
-import {Admin, Binary, InitialItem, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Duration, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Cw20ReceiveMsg, Cw721ReceiveMsg, SubDao, PreProposeInfo, MigrateParams, MigrateV1ToV2, MigrationModuleParams, ProposalParams, V1CodeIds, V2CodeIds, Addr, ProposalModuleStatus, ArrayOfProposalModule, ProposalModule, ArrayOfAddr, Expiration, ContractVersion, ArrayOfString, ArrayOfSubDao} from "./types";
+import {Binary, Uint128, Timestamp, Uint64, Addr} from "./types";
+export type Admin = {
+  address: {
+    addr: string;
+  };
+} | {
+  core_module: {};
+};
 export interface InstantiateMsg {
   admin?: string | null;
   automatically_add_cw20s: boolean;
@@ -10,6 +17,16 @@ export interface InstantiateMsg {
   name: string;
   proposal_modules_instantiate_info: ModuleInstantiateInfo[];
   voting_module_instantiate_info: ModuleInstantiateInfo;
+}
+export interface InitialItem {
+  key: string;
+  value: string;
+}
+export interface ModuleInstantiateInfo {
+  admin?: Admin | null;
+  code_id: number;
+  label: string;
+  msg: Binary;
 }
 export type ExecuteMsg = {
   execute_admin_msgs: {
@@ -73,6 +90,145 @@ export type ExecuteMsg = {
     to_remove: string[];
   };
 };
+export type CosmosMsgForEmpty = {
+  bank: BankMsg;
+} | {
+  custom: Empty;
+} | {
+  staking: StakingMsg;
+} | {
+  distribution: DistributionMsg;
+} | {
+  stargate: {
+    type_url: string;
+    value: Binary;
+  };
+} | {
+  ibc: IbcMsg;
+} | {
+  wasm: WasmMsg;
+} | {
+  gov: GovMsg;
+};
+export type BankMsg = {
+  send: {
+    amount: Coin[];
+    to_address: string;
+  };
+} | {
+  burn: {
+    amount: Coin[];
+  };
+};
+export type StakingMsg = {
+  delegate: {
+    amount: Coin;
+    validator: string;
+  };
+} | {
+  undelegate: {
+    amount: Coin;
+    validator: string;
+  };
+} | {
+  redelegate: {
+    amount: Coin;
+    dst_validator: string;
+    src_validator: string;
+  };
+};
+export type DistributionMsg = {
+  set_withdraw_address: {
+    address: string;
+  };
+} | {
+  withdraw_delegator_reward: {
+    validator: string;
+  };
+};
+export type IbcMsg = {
+  transfer: {
+    amount: Coin;
+    channel_id: string;
+    timeout: IbcTimeout;
+    to_address: string;
+  };
+} | {
+  send_packet: {
+    channel_id: string;
+    data: Binary;
+    timeout: IbcTimeout;
+  };
+} | {
+  close_channel: {
+    channel_id: string;
+  };
+};
+export type WasmMsg = {
+  execute: {
+    contract_addr: string;
+    funds: Coin[];
+    msg: Binary;
+  };
+} | {
+  instantiate: {
+    admin?: string | null;
+    code_id: number;
+    funds: Coin[];
+    label: string;
+    msg: Binary;
+  };
+} | {
+  migrate: {
+    contract_addr: string;
+    msg: Binary;
+    new_code_id: number;
+  };
+} | {
+  update_admin: {
+    admin: string;
+    contract_addr: string;
+  };
+} | {
+  clear_admin: {
+    contract_addr: string;
+  };
+};
+export type GovMsg = {
+  vote: {
+    proposal_id: number;
+    vote: VoteOption;
+  };
+};
+export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
+export type Duration = {
+  height: number;
+} | {
+  time: number;
+};
+export interface Coin {
+  amount: Uint128;
+  denom: string;
+}
+export interface Empty {}
+export interface IbcTimeout {
+  block?: IbcTimeoutBlock | null;
+  timestamp?: Timestamp | null;
+}
+export interface IbcTimeoutBlock {
+  height: number;
+  revision: number;
+}
+export interface Cw20ReceiveMsg {
+  amount: Uint128;
+  msg: Binary;
+  sender: string;
+}
+export interface Cw721ReceiveMsg {
+  msg: Binary;
+  sender: string;
+  token_id: string;
+}
 export interface Config {
   automatically_add_cw20s: boolean;
   automatically_add_cw721s: boolean;
@@ -80,6 +236,10 @@ export interface Config {
   description: string;
   image_url?: string | null;
   name: string;
+}
+export interface SubDao {
+  addr: string;
+  charter?: string | null;
 }
 export type QueryMsg = {
   admin: {};
@@ -156,6 +316,50 @@ export type MigrateMsg = {
 } | {
   from_compatible: {};
 };
+export type PreProposeInfo = {
+  anyone_may_propose: {};
+} | {
+  module_may_propose: {
+    info: ModuleInstantiateInfo;
+  };
+};
+export interface MigrateParams {
+  migrator_code_id: number;
+  params: MigrateV1ToV2;
+}
+export interface MigrateV1ToV2 {
+  migration_params: MigrationModuleParams;
+  sub_daos: SubDao[];
+  v1_code_ids: V1CodeIds;
+  v2_code_ids: V2CodeIds;
+}
+export interface MigrationModuleParams {
+  migrate_stake_cw20_manager?: boolean | null;
+  proposal_params: [string, ProposalParams][];
+}
+export interface ProposalParams {
+  close_proposal_on_execution_failure: boolean;
+  pre_propose_info: PreProposeInfo;
+}
+export interface V1CodeIds {
+  cw20_stake: number;
+  cw20_staked_balances_voting: number;
+  cw4_voting: number;
+  proposal_single: number;
+}
+export interface V2CodeIds {
+  cw20_stake: number;
+  cw20_staked_balances_voting: number;
+  cw4_voting: number;
+  proposal_single: number;
+}
+export type ProposalModuleStatus = "enabled" | "disabled";
+export type ArrayOfProposalModule = ProposalModule[];
+export interface ProposalModule {
+  address: Addr;
+  prefix: string;
+  status: ProposalModuleStatus;
+}
 export interface AdminNominationResponse {
   nomination?: Addr | null;
 }
@@ -163,6 +367,7 @@ export interface Cw20BalanceResponse {
   addr: Addr;
   balance: Uint128;
 }
+export type ArrayOfAddr = Addr[];
 export interface DaoURIResponse {
   dao_uri?: string | null;
 }
@@ -172,6 +377,13 @@ export type PauseInfoResponse = {
   };
 } | {
   unpaused: {};
+};
+export type Expiration = {
+  at_height: number;
+} | {
+  at_time: Timestamp;
+} | {
+  never: {};
 };
 export interface DumpStateResponse {
   active_proposal_module_count: number;
@@ -183,12 +395,18 @@ export interface DumpStateResponse {
   version: ContractVersion;
   voting_module: Addr;
 }
+export interface ContractVersion {
+  contract: string;
+  version: string;
+}
 export interface GetItemResponse {
   item?: string | null;
 }
 export interface InfoResponse {
   info: ContractVersion;
 }
+export type ArrayOfString = string[];
+export type ArrayOfSubDao = SubDao[];
 export interface ProposalModuleCountResponse {
   active_proposal_module_count: number;
   total_proposal_module_count: number;

@@ -1,4 +1,4 @@
-import {ApproverProposeMessage, Uint128, DepositToken, UncheckedDenom, DepositRefundPolicy, Status, UncheckedDepositInfo, Empty, QueryExt, CheckedDenom, Addr, CheckedDepositInfo, Binary} from "./types";
+import {Uint128, Addr, Binary} from "./types";
 export interface InstantiateMsg {
   pre_propose_approval_contract: string;
 }
@@ -33,6 +33,33 @@ export type ExecuteMsg = {
     proposal_id: number;
   };
 };
+export type ApproverProposeMessage = {
+  propose: {
+    approval_id: number;
+    description: string;
+    title: string;
+  };
+};
+export type DepositToken = {
+  token: {
+    denom: UncheckedDenom;
+  };
+} | {
+  voting_module_token: {};
+};
+export type UncheckedDenom = {
+  native: string;
+} | {
+  cw20: string;
+};
+export type DepositRefundPolicy = "always" | "only_passed" | "never";
+export type Status = "open" | "rejected" | "passed" | "executed" | "closed" | "execution_failed";
+export interface UncheckedDepositInfo {
+  amount: Uint128;
+  denom: DepositToken;
+  refund_policy: DepositRefundPolicy;
+}
+export interface Empty {}
 export type QueryMsg = {
   proposal_module: {};
 } | {
@@ -50,9 +77,22 @@ export type QueryMsg = {
     msg: QueryExt;
   };
 };
+export type QueryExt = {
+  pre_propose_approval_contract: {};
+};
+export type CheckedDenom = {
+  native: string;
+} | {
+  cw20: Addr;
+};
 export interface Config {
   deposit_info?: CheckedDepositInfo | null;
   open_proposal_submission: boolean;
+}
+export interface CheckedDepositInfo {
+  amount: Uint128;
+  denom: CheckedDenom;
+  refund_policy: DepositRefundPolicy;
 }
 export interface DepositInfoResponse {
   deposit_info?: CheckedDepositInfo | null;

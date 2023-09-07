@@ -1,6 +1,29 @@
-import {NftContract, NftMintMsg, MetadataExt, Addr, ContractVersion, Uint128} from "./types";
+import {Addr, Uint128} from "./types";
+export type NftContract = {
+  existing: {
+    address: string;
+  };
+} | {
+  new: {
+    code_id: number;
+    initial_nfts: NftMintMsg[];
+    label: string;
+    name: string;
+    symbol: string;
+  };
+};
 export interface InstantiateMsg {
   nft_contract: NftContract;
+}
+export interface NftMintMsg {
+  extension: MetadataExt;
+  owner: string;
+  token_id: string;
+  token_uri?: string | null;
+}
+export interface MetadataExt {
+  role?: string | null;
+  weight: number;
 }
 export type ExecuteMsg = string;
 export type QueryMsg = {
@@ -24,6 +47,10 @@ export interface Config {
 }
 export interface InfoResponse {
   info: ContractVersion;
+}
+export interface ContractVersion {
+  contract: string;
+  version: string;
 }
 export interface TotalPowerAtHeightResponse {
   height: number;

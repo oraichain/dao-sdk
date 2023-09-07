@@ -1,6 +1,20 @@
-import {GroupContract, Member, Addr, ContractVersion, Uint128} from "./types";
+import {Addr, Uint128} from "./types";
+export type GroupContract = {
+  existing: {
+    address: string;
+  };
+} | {
+  new: {
+    cw4_group_code_id: number;
+    initial_members: Member[];
+  };
+};
 export interface InstantiateMsg {
   group_contract: GroupContract;
+}
+export interface Member {
+  addr: string;
+  weight: number;
 }
 export type ExecuteMsg = string;
 export type QueryMsg = {
@@ -22,6 +36,10 @@ export type QueryMsg = {
 export interface MigrateMsg {}
 export interface InfoResponse {
   info: ContractVersion;
+}
+export interface ContractVersion {
+  contract: string;
+  version: string;
 }
 export interface TotalPowerAtHeightResponse {
   height: number;

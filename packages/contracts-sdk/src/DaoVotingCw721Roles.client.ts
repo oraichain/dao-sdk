@@ -5,8 +5,8 @@
 */
 
 import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
-import {NftContract, NftMintMsg, MetadataExt, Addr, ContractVersion, Uint128} from "./types";
-import {InstantiateMsg, ExecuteMsg, QueryMsg, Config, InfoResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoVotingCw721Roles.types";
+import {Addr, Uint128} from "./types";
+import {NftContract, InstantiateMsg, NftMintMsg, MetadataExt, ExecuteMsg, QueryMsg, Config, InfoResponse, ContractVersion, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoVotingCw721Roles.types";
 export interface DaoVotingCw721RolesReadOnlyInterface {
   contractAddress: string;
   config: () => Promise<Config>;

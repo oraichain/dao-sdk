@@ -1,4 +1,4 @@
-import {Binary, Expiration, Timestamp, Uint64, ExecuteExt, Action, MetadataExt, QueryExt, Approval, Null, OwnershipForString} from "./types";
+import {Binary, Timestamp, Uint64, Null} from "./types";
 export interface InstantiateMsg {
   minter: string;
   name: string;
@@ -53,6 +53,47 @@ export type ExecuteMsg = {
 } | {
   update_ownership: Action;
 };
+export type Expiration = {
+  at_height: number;
+} | {
+  at_time: Timestamp;
+} | {
+  never: {};
+};
+export type ExecuteExt = {
+  add_hook: {
+    addr: string;
+  };
+} | {
+  remove_hook: {
+    addr: string;
+  };
+} | {
+  update_token_uri: {
+    token_id: string;
+    token_uri?: string | null;
+  };
+} | {
+  update_token_weight: {
+    token_id: string;
+    weight: number;
+  };
+} | {
+  update_token_role: {
+    role?: string | null;
+    token_id: string;
+  };
+};
+export type Action = {
+  transfer_ownership: {
+    expiry?: Expiration | null;
+    new_owner: string;
+  };
+} | "accept_ownership" | "renounce_ownership";
+export interface MetadataExt {
+  role?: string | null;
+  weight: number;
+}
 export type QueryMsg = {
   owner_of: {
     include_expired?: boolean | null;
@@ -115,6 +156,23 @@ export type QueryMsg = {
 } | {
   ownership: {};
 };
+export type QueryExt = {
+  total_weight: {
+    at_height?: number | null;
+  };
+} | {
+  list_members: {
+    limit?: number | null;
+    start_after?: string | null;
+  };
+} | {
+  member: {
+    addr: string;
+    at_height?: number | null;
+  };
+} | {
+  hooks: {};
+};
 export interface AllNftInfoResponseForQueryExt {
   access: OwnerOfResponse;
   info: NftInfoResponseForQueryExt;
@@ -122,6 +180,10 @@ export interface AllNftInfoResponseForQueryExt {
 export interface OwnerOfResponse {
   approvals: Approval[];
   owner: string;
+}
+export interface Approval {
+  expires: Expiration;
+  spender: string;
 }
 export interface NftInfoResponseForQueryExt {
   extension: QueryExt;
@@ -151,4 +213,9 @@ export interface NumTokensResponse {
 }
 export interface OperatorResponse {
   approval: Approval;
+}
+export interface OwnershipForString {
+  owner?: string | null;
+  pending_expiry?: Expiration | null;
+  pending_owner?: string | null;
 }

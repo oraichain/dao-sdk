@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {Uint128, Binary, UncheckedDenom, Schedule, Timestamp, Uint64, Action, Expiration, Cw20ReceiveMsg, ArrayOfVestingContract, VestingContract, Addr, OwnershipForAddr} from "./types";
-import {InstantiateMsg, ExecuteMsg, QueryMsg} from "./CwPayrollFactory.types";
+import {Uint128, Binary, Timestamp, Uint64, Addr} from "./types";
+import {InstantiateMsg, ExecuteMsg, UncheckedDenom, Schedule, Action, Expiration, Cw20ReceiveMsg, QueryMsg, ArrayOfVestingContract, VestingContract, OwnershipForAddr} from "./CwPayrollFactory.types";
 export interface CwPayrollFactoryReadOnlyInterface {
   contractAddress: string;
   listVestingContracts: ({

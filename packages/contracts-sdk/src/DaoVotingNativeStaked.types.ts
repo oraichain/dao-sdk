@@ -1,4 +1,4 @@
-import {ActiveThreshold, Uint128, Decimal, Duration, Expiration, Timestamp, Uint64, Claim, Addr, Config, ContractVersion, Boolean} from "./types";
+import {ActiveThreshold, Uint128, Decimal, Duration, Expiration, Timestamp, Uint64, Claim, Addr, ContractVersion, Boolean} from "./types";
 export interface InstantiateMsg {
   active_threshold?: ActiveThreshold | null;
   denom: string;
@@ -68,6 +68,10 @@ export interface ActiveThresholdResponse {
 }
 export interface ClaimsResponse {
   claims: Claim[];
+}
+export interface Config {
+  denom: string;
+  unstaking_duration?: Duration | null;
 }
 export interface DenomResponse {
   denom: string;

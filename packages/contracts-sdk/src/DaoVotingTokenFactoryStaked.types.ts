@@ -1,4 +1,4 @@
-import {ActiveThreshold, Uint128, Decimal, TokenInfo, Duration, NewTokenInfo, InitialBalance, NewDenomMetadata, DenomUnit, Expiration, Timestamp, Uint64, Claim, Addr, Config, ContractVersion, Boolean} from "./types";
+import {ActiveThreshold, Uint128, Decimal, TokenInfo, Duration, NewTokenInfo, InitialBalance, NewDenomMetadata, DenomUnit, Expiration, Timestamp, Uint64, Claim, Addr, ContractVersion, Boolean} from "./types";
 export interface InstantiateMsg {
   active_threshold?: ActiveThreshold | null;
   token_info: TokenInfo;
@@ -74,6 +74,9 @@ export interface ClaimsResponse {
 }
 export interface DenomResponse {
   denom: string;
+}
+export interface Config {
+  unstaking_duration?: Duration | null;
 }
 export interface GetHooksResponse {
   hooks: string[];

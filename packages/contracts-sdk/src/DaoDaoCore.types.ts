@@ -1,4 +1,4 @@
-import {Admin, Binary, InitialItem, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Duration, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Cw20ReceiveMsg, Cw721ReceiveMsg, Config, SubDao, PreProposeInfo, MigrateParams, MigrateV1ToV2, MigrationModuleParams, ProposalParams, V1CodeIds, V2CodeIds, Addr, ProposalModuleStatus, ArrayOfProposalModule, ProposalModule, ArrayOfAddr, Expiration, ContractVersion, ArrayOfString, ArrayOfSubDao} from "./types";
+import {Admin, Binary, InitialItem, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Duration, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Cw20ReceiveMsg, Cw721ReceiveMsg, SubDao, PreProposeInfo, MigrateParams, MigrateV1ToV2, MigrationModuleParams, ProposalParams, V1CodeIds, V2CodeIds, Addr, ProposalModuleStatus, ArrayOfProposalModule, ProposalModule, ArrayOfAddr, Expiration, ContractVersion, ArrayOfString, ArrayOfSubDao} from "./types";
 export interface InstantiateMsg {
   admin?: string | null;
   automatically_add_cw20s: boolean;
@@ -73,6 +73,14 @@ export type ExecuteMsg = {
     to_remove: string[];
   };
 };
+export interface Config {
+  automatically_add_cw20s: boolean;
+  automatically_add_cw721s: boolean;
+  dao_uri?: string | null;
+  description: string;
+  image_url?: string | null;
+  name: string;
+}
 export type QueryMsg = {
   admin: {};
 } | {

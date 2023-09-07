@@ -1,4 +1,4 @@
-import {Duration, PreProposeInfo, Admin, Binary, VotingStrategy, PercentageThreshold, Decimal, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, MultipleChoiceOptions, MultipleChoiceOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, MultipleChoiceVote, Addr, Config, VoteInfo, ContractVersion, MultipleChoiceOptionType, Expiration, Status, MultipleChoiceProposal, CheckedMultipleChoiceOption, MultipleChoiceVotes, ProposalCreationPolicy} from "./types";
+import {Duration, PreProposeInfo, Admin, Binary, VotingStrategy, PercentageThreshold, Decimal, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, MultipleChoiceOptions, MultipleChoiceOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, MultipleChoiceVote, Addr, VoteInfo, ContractVersion, MultipleChoiceOptionType, Expiration, Status, MultipleChoiceProposal, CheckedMultipleChoiceOption, MultipleChoiceVotes, ProposalCreationPolicy} from "./types";
 export interface InstantiateMsg {
   allow_revoting: boolean;
   close_proposal_on_execution_failure: boolean;
@@ -115,6 +115,15 @@ export type MigrateMsg = {
 } | {
   from_compatible: {};
 };
+export interface Config {
+  allow_revoting: boolean;
+  close_proposal_on_execution_failure: boolean;
+  dao: Addr;
+  max_voting_period: Duration;
+  min_voting_period?: Duration | null;
+  only_members_execute: boolean;
+  voting_strategy: VotingStrategy;
+}
 export interface VoteResponse {
   vote?: VoteInfo | null;
 }

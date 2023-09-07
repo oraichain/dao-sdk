@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {Uint128, Action, Expiration, Timestamp, Uint64, Addr, Config, OwnershipForAddr} from "./types";
-import {InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, InfoResponse} from "./Cw20StakeRewardDistributor.types";
+import {Uint128, Action, Expiration, Timestamp, Uint64, Addr, OwnershipForAddr} from "./types";
+import {InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, InfoResponse, Config} from "./Cw20StakeRewardDistributor.types";
 export interface Cw20StakeRewardDistributorReadOnlyInterface {
   contractAddress: string;
   info: () => Promise<InfoResponse>;

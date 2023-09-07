@@ -1,4 +1,4 @@
-import {Duration, PreProposeInfo, Admin, Binary, Threshold, PercentageThreshold, Decimal, Uint128, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Vote, SingleChoiceProposeMsg, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr, Config, VoteInfo, ContractVersion, Expiration, Status, SingleChoiceProposal, Votes, ProposalCreationPolicy} from "./types";
+import {Duration, PreProposeInfo, Admin, Binary, Threshold, PercentageThreshold, Decimal, Uint128, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Vote, SingleChoiceProposeMsg, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr, VoteInfo, ContractVersion, Expiration, Status, SingleChoiceProposal, Votes, ProposalCreationPolicy} from "./types";
 export interface InstantiateMsg {
   allow_revoting: boolean;
   close_proposal_on_execution_failure: boolean;
@@ -110,6 +110,15 @@ export type MigrateMsg = {
 } | {
   from_compatible: {};
 };
+export interface Config {
+  allow_revoting: boolean;
+  close_proposal_on_execution_failure: boolean;
+  dao: Addr;
+  max_voting_period: Duration;
+  min_voting_period?: Duration | null;
+  only_members_execute: boolean;
+  threshold: Threshold;
+}
 export interface VoteResponse {
   vote?: VoteInfo | null;
 }

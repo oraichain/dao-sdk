@@ -1,4 +1,4 @@
-import {Denom, Addr, StakeChangedHookMsg, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, Config, RewardConfig, OwnershipForAddr} from "./types";
+import {Denom, Addr, StakeChangedHookMsg, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, RewardConfig, OwnershipForAddr} from "./types";
 export interface InstantiateMsg {
   owner?: string | null;
   reward_duration: number;
@@ -41,4 +41,8 @@ export interface PendingRewardsResponse {
 export interface InfoResponse {
   config: Config;
   reward: RewardConfig;
+}
+export interface Config {
+  reward_token: Denom;
+  staking_contract: Addr;
 }

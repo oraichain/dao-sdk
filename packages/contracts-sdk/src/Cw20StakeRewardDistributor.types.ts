@@ -1,4 +1,4 @@
-import {Uint128, Action, Expiration, Timestamp, Uint64, Addr, Config, OwnershipForAddr} from "./types";
+import {Uint128, Action, Expiration, Timestamp, Uint64, Addr, OwnershipForAddr} from "./types";
 export interface InstantiateMsg {
   owner: string;
   reward_rate: Uint128;
@@ -30,4 +30,9 @@ export interface InfoResponse {
   balance: Uint128;
   config: Config;
   last_payment_block: number;
+}
+export interface Config {
+  reward_rate: Uint128;
+  reward_token: Addr;
+  staking_addr: Addr;
 }

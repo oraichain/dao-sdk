@@ -1,4 +1,4 @@
-import {NftContract, NftMintMsg, MetadataExt, Addr, Config, ContractVersion, Uint128} from "./types";
+import {NftContract, NftMintMsg, MetadataExt, Addr, ContractVersion, Uint128} from "./types";
 export interface InstantiateMsg {
   nft_contract: NftContract;
 }
@@ -19,6 +19,9 @@ export type QueryMsg = {
 } | {
   info: {};
 };
+export interface Config {
+  nft_address: Addr;
+}
 export interface InfoResponse {
   info: ContractVersion;
 }

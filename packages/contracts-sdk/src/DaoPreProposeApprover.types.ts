@@ -1,4 +1,4 @@
-import {ApproverProposeMessage, Uint128, DepositToken, UncheckedDenom, DepositRefundPolicy, Status, UncheckedDepositInfo, Empty, QueryExt, CheckedDenom, Addr, Config, CheckedDepositInfo, Binary} from "./types";
+import {ApproverProposeMessage, Uint128, DepositToken, UncheckedDenom, DepositRefundPolicy, Status, UncheckedDepositInfo, Empty, QueryExt, CheckedDenom, Addr, CheckedDepositInfo, Binary} from "./types";
 export interface InstantiateMsg {
   pre_propose_approval_contract: string;
 }
@@ -50,6 +50,10 @@ export type QueryMsg = {
     msg: QueryExt;
   };
 };
+export interface Config {
+  deposit_info?: CheckedDepositInfo | null;
+  open_proposal_submission: boolean;
+}
 export interface DepositInfoResponse {
   deposit_info?: CheckedDepositInfo | null;
   proposer: Addr;

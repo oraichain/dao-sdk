@@ -1,7 +1,7 @@
 module.exports = {
-  preset: 'ts-jest',
   testEnvironment: 'node',
   transform: {
-    '^.+\\.ts?$': 'ts-jest'
-  }
+    '^.+\\.ts?$': ['esbuild-jest', { isolatedModules: true }]
+  },
+  testPathIgnorePatterns: ['build/', 'node_modules/']
 };

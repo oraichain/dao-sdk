@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
-import {Admin, Binary, InitialItem, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Duration, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Cw20ReceiveMsg, Cw721ReceiveMsg, Config, SubDao, PreProposeInfo, MigrateParams, MigrateV1ToV2, MigrationModuleParams, ProposalParams, V1CodeIds, V2CodeIds, Addr, ProposalModuleStatus, ArrayOfProposalModule, ProposalModule, ArrayOfAddr, Expiration, ContractVersion, ArrayOfString, ArrayOfSubDao} from "./types";
-import {InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, AdminNominationResponse, Cw20BalanceResponse, DaoURIResponse, PauseInfoResponse, DumpStateResponse, GetItemResponse, InfoResponse, ProposalModuleCountResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoDaoCore.types";
+import {Admin, Binary, InitialItem, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Duration, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Cw20ReceiveMsg, Cw721ReceiveMsg, SubDao, PreProposeInfo, MigrateParams, MigrateV1ToV2, MigrationModuleParams, ProposalParams, V1CodeIds, V2CodeIds, Addr, ProposalModuleStatus, ArrayOfProposalModule, ProposalModule, ArrayOfAddr, Expiration, ContractVersion, ArrayOfString, ArrayOfSubDao} from "./types";
+import {InstantiateMsg, ExecuteMsg, Config, QueryMsg, MigrateMsg, AdminNominationResponse, Cw20BalanceResponse, DaoURIResponse, PauseInfoResponse, DumpStateResponse, GetItemResponse, InfoResponse, ProposalModuleCountResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoDaoCore.types";
 export interface DaoDaoCoreReadOnlyInterface {
   contractAddress: string;
   admin: () => Promise<Addr>;

@@ -1,4 +1,4 @@
-import {Duration, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, Claim, Addr, Config, OwnershipForAddr} from "./types";
+import {Duration, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, Claim, Addr, OwnershipForAddr} from "./types";
 export interface InstantiateMsg {
   owner?: string | null;
   token_address: string;
@@ -63,6 +63,10 @@ export type MigrateMsg = {
 };
 export interface ClaimsResponse {
   claims: Claim[];
+}
+export interface Config {
+  token_address: Addr;
+  unstaking_duration?: Duration | null;
 }
 export interface GetHooksResponse {
   hooks: string[];

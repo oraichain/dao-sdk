@@ -1,4 +1,4 @@
-import {ActiveThreshold, Uint128, Decimal, NftContract, Binary, Admin, Duration, Cw721ReceiveMsg, Addr, Config, ContractVersion, Boolean, Expiration, Timestamp, Uint64, NftClaim, ArrayOfString} from "./types";
+import {ActiveThreshold, Uint128, Decimal, NftContract, Binary, Admin, Duration, Cw721ReceiveMsg, Addr, ContractVersion, Boolean, Expiration, Timestamp, Uint64, NftClaim, ArrayOfString} from "./types";
 export interface InstantiateMsg {
   active_threshold?: ActiveThreshold | null;
   nft_contract: NftContract;
@@ -65,6 +65,11 @@ export type QueryMsg = {
 };
 export interface ActiveThresholdResponse {
   active_threshold?: ActiveThreshold | null;
+}
+export interface Config {
+  nft_address: Addr;
+  owner?: Addr | null;
+  unstaking_duration?: Duration | null;
 }
 export interface HooksResponse {
   hooks: string[];

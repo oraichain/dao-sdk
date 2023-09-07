@@ -1,4 +1,10 @@
+export type Duration = {
+  height: number;
+} | {
+  time: number;
+};
 export type Uint128 = string;
+export type Binary = string;
 export type Action = {
   transfer_ownership: {
     expiry?: Expiration | null;
@@ -14,23 +20,6 @@ export type Expiration = {
 };
 export type Timestamp = Uint64;
 export type Uint64 = string;
-export type Addr = string;
-export interface Config {
-  reward_rate: Uint128;
-  reward_token: Addr;
-  staking_addr: Addr;
-}
-export interface OwnershipForAddr {
-  owner?: Addr | null;
-  pending_expiry?: Expiration | null;
-  pending_owner?: Addr | null;
-}
-export type Duration = {
-  height: number;
-} | {
-  time: number;
-};
-export type Binary = string;
 export interface Cw20ReceiveMsg {
   amount: Uint128;
   msg: Binary;
@@ -40,26 +29,11 @@ export interface Claim {
   amount: Uint128;
   release_at: Expiration;
 }
-export type Denom = {
-  native: string;
-} | {
-  cw20: Addr;
-};
-export type StakeChangedHookMsg = {
-  stake: {
-    addr: Addr;
-    amount: Uint128;
-  };
-} | {
-  unstake: {
-    addr: Addr;
-    amount: Uint128;
-  };
-};
-export interface RewardConfig {
-  period_finish: number;
-  reward_duration: number;
-  reward_rate: Uint128;
+export type Addr = string;
+export interface OwnershipForAddr {
+  owner?: Addr | null;
+  pending_expiry?: Expiration | null;
+  pending_owner?: Addr | null;
 }
 export type ExecuteExt = {
   add_hook: {
@@ -116,19 +90,36 @@ export interface OwnershipForString {
   pending_expiry?: Expiration | null;
   pending_owner?: string | null;
 }
-export type UncheckedDenom = {
-  native: string;
+export type TokenInfo = {
+  native: {
+    amount: Uint128;
+    denom: string;
+  };
 } | {
-  cw20: string;
+  cw20: {
+    amount: Uint128;
+    contract_addr: string;
+  };
 };
-export type Schedule = "saturating_linear" | {
-  piecewise_linear: [number, Uint128][];
+export interface Counterparty {
+  address: string;
+  promise: TokenInfo;
+}
+export type CheckedTokenInfo = {
+  native: {
+    amount: Uint128;
+    denom: string;
+  };
+} | {
+  cw20: {
+    amount: Uint128;
+    contract_addr: Addr;
+  };
 };
-export type ArrayOfVestingContract = VestingContract[];
-export interface VestingContract {
-  contract: string;
-  instantiator: string;
-  recipient: string;
+export interface CheckedCounterparty {
+  address: Addr;
+  promise: CheckedTokenInfo;
+  provided: boolean;
 }
 export type ActiveThreshold = {
   absolute_count: {
@@ -140,25 +131,6 @@ export type ActiveThreshold = {
   };
 };
 export type Decimal = string;
-export type TokenInfo = {
-  existing: {
-    address: string;
-    staking_contract: StakingInfo;
-  };
-} | {
-  new: {
-    code_id: number;
-    decimals: number;
-    initial_balances: Cw20Coin[];
-    initial_dao_balance?: Uint128 | null;
-    label: string;
-    marketing?: InstantiateMarketingInfo | null;
-    name: string;
-    staking_code_id: number;
-    symbol: string;
-    unstaking_duration?: Duration | null;
-  };
-};
 export type StakingInfo = {
   existing: {
     staking_contract_address: string;
@@ -194,25 +166,40 @@ export interface ContractVersion {
   version: string;
 }
 export type Boolean = boolean;
-export interface Counterparty {
-  address: string;
-  promise: TokenInfo;
+export type UncheckedDenom = {
+  native: string;
+} | {
+  cw20: string;
+};
+export type Schedule = "saturating_linear" | {
+  piecewise_linear: [number, Uint128][];
+};
+export type ArrayOfVestingContract = VestingContract[];
+export interface VestingContract {
+  contract: string;
+  instantiator: string;
+  recipient: string;
 }
-export type CheckedTokenInfo = {
-  native: {
+export type Denom = {
+  native: string;
+} | {
+  cw20: Addr;
+};
+export type StakeChangedHookMsg = {
+  stake: {
+    addr: Addr;
     amount: Uint128;
-    denom: string;
   };
 } | {
-  cw20: {
+  unstake: {
+    addr: Addr;
     amount: Uint128;
-    contract_addr: Addr;
   };
 };
-export interface CheckedCounterparty {
-  address: Addr;
-  promise: CheckedTokenInfo;
-  provided: boolean;
+export interface RewardConfig {
+  period_finish: number;
+  reward_duration: number;
+  reward_rate: Uint128;
 }
 export interface Metadata {
   base: string;
@@ -564,21 +551,13 @@ export interface UncheckedDepositInfo {
   denom: DepositToken;
   refund_policy: DepositRefundPolicy;
 }
-export interface InstantiateExt {
-  approver: string;
-}
 export type ProposeMessage = {
   propose: {
+    choices: MultipleChoiceOptions;
     description: string;
-    msgs: CosmosMsgForEmpty[];
     title: string;
   };
 };
-export interface CheckedDepositInfo {
-  amount: Uint128;
-  denom: CheckedDenom;
-  refund_policy: DepositRefundPolicy;
-}
 export interface MultipleChoiceOptions {
   options: MultipleChoiceOption[];
 }
@@ -587,6 +566,14 @@ export interface MultipleChoiceOption {
   msgs: CosmosMsgForEmpty[];
   title: string;
 }
+export interface CheckedDepositInfo {
+  amount: Uint128;
+  denom: CheckedDenom;
+  refund_policy: DepositRefundPolicy;
+}
+export interface InstantiateExt {
+  approver: string;
+}
 export type ApproverProposeMessage = {
   propose: {
     approval_id: number;
@@ -594,6 +581,40 @@ export type ApproverProposeMessage = {
     title: string;
   };
 };
+export type VotingStrategy = {
+  single_choice: {
+    quorum: PercentageThreshold;
+  };
+};
+export interface MultipleChoiceVote {
+  option_id: number;
+}
+export type MultipleChoiceOptionType = "standard" | "none";
+export interface MultipleChoiceProposal {
+  allow_revoting: boolean;
+  choices: CheckedMultipleChoiceOption[];
+  description: string;
+  expiration: Expiration;
+  min_voting_period?: Expiration | null;
+  proposer: Addr;
+  start_height: number;
+  status: Status;
+  title: string;
+  total_power: Uint128;
+  votes: MultipleChoiceVotes;
+  voting_strategy: VotingStrategy;
+}
+export interface CheckedMultipleChoiceOption {
+  description: string;
+  index: number;
+  msgs: CosmosMsgForEmpty[];
+  option_type: MultipleChoiceOptionType;
+  title: string;
+  vote_count: Uint128;
+}
+export interface MultipleChoiceVotes {
+  vote_weights: Uint128[];
+}
 export interface Choice {
   msgs: CosmosMsgForEmpty[];
 }
@@ -633,40 +654,6 @@ export interface Tally {
 export interface M {
   cells: Cell[];
   n: number;
-}
-export type VotingStrategy = {
-  single_choice: {
-    quorum: PercentageThreshold;
-  };
-};
-export interface MultipleChoiceVote {
-  option_id: number;
-}
-export type MultipleChoiceOptionType = "standard" | "none";
-export interface MultipleChoiceProposal {
-  allow_revoting: boolean;
-  choices: CheckedMultipleChoiceOption[];
-  description: string;
-  expiration: Expiration;
-  min_voting_period?: Expiration | null;
-  proposer: Addr;
-  start_height: number;
-  status: Status;
-  title: string;
-  total_power: Uint128;
-  votes: MultipleChoiceVotes;
-  voting_strategy: VotingStrategy;
-}
-export interface CheckedMultipleChoiceOption {
-  description: string;
-  index: number;
-  msgs: CosmosMsgForEmpty[];
-  option_type: MultipleChoiceOptionType;
-  title: string;
-  vote_count: Uint128;
-}
-export interface MultipleChoiceVotes {
-  vote_weights: Uint128[];
 }
 export type GroupContract = {
   existing: {

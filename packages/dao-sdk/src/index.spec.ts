@@ -1,9 +1,22 @@
 import { coin } from '@cosmjs/amino';
-import { toBinary } from '@cosmjs/cosmwasm-stargate';
+import { SigningCosmWasmClient, toBinary } from '@cosmjs/cosmwasm-stargate';
 import * as commonArtifacts from '@oraichain/common-contracts-build';
+import { Cw20BaseClient, Cw20BaseTypes } from '@oraichain/common-contracts-sdk';
 import { SimulateCosmWasmClient } from '@oraichain/cw-simulate';
 import * as daoArtifacts from '@oraichain/dao-contracts-build';
-import { DaoDaoCoreClient, DaoDaoCoreTypes, DaoProposalSingleTypes, DaoVotingCw20StakedClient, DaoVotingCw20StakedTypes } from '@oraichain/dao-contracts-sdk';
+import { Ok } from 'ts-results';
+import {
+  Cw20StakeClient,
+  Cw20StakeTypes,
+  DaoDaoCoreClient,
+  DaoDaoCoreTypes,
+  DaoPreProposeSingleClient,
+  DaoPreProposeSingleTypes,
+  DaoProposalSingleClient,
+  DaoProposalSingleTypes,
+  DaoVotingCw20StakedClient,
+  DaoVotingCw20StakedTypes
+} from '@oraichain/dao-contracts-sdk';
 import fs from 'fs';
 
 const client = new SimulateCosmWasmClient({
@@ -13,6 +26,16 @@ const client = new SimulateCosmWasmClient({
 });
 const senderAddress = 'orai12zyu8w93h0q2lcnt50g3fn0w3yqnhy4fvawaqz';
 const bobAddress = 'orai18cgmaec32hgmd8ls8w44hjn25qzjwhannd9kpj';
+
+const makeProposal = async (client: SigningCosmWasmClient, proposalSingleContract: DaoProposalSingleClient, msg: any[]) => {
+  const proposalCreationPolicy = await proposalSingleContract.proposalCreationPolicy();
+  let funds;
+  if ('anyone' in proposalCreationPolicy) {
+    funds = [];
+  } else {
+    const preProposeContract = new DaoPreProposeSingleClient(client, senderAddress, proposalCreationPolicy.module.addr);
+  }
+};
 
 describe('simple_case', () => {
   let daoContract: DaoDaoCoreClient;
@@ -86,10 +109,57 @@ describe('simple_case', () => {
     daoContract = new DaoDaoCoreClient(client, senderAddress, coreAddress);
   });
 
-  it('test-init', async () => {
-    const votingAddress = await daoContract.votingModule();
-    const votingModuleContract = new DaoVotingCw20StakedClient(client, senderAddress, votingAddress);
-    const govTokenAddress = await votingModuleContract.tokenContract();
-    console.log('govTokenAddress', govTokenAddress);
+  it('create-proposal', async () => {
+    const votingModuleContract = new DaoVotingCw20StakedClient(client, senderAddress, await daoContract.votingModule());
+    const govTokenContract = new Cw20StakeClient(client, senderAddress, await votingModuleContract.tokenContract());
+    const proposalModules = await daoContract.proposalModules({});
+    expect(proposalModules.length).toEqual(1);
+    const proposalModuleContract = new DaoProposalSingleClient(client, senderAddress, proposalModules.find((m) => m.status === 'enabled').address);
+    const stakingContract = new DaoVotingCw20StakedClient(client, senderAddress, await votingModuleContract.stakingContract());
+
+    await expect(
+      proposalModuleContract.propose({
+        title: 'title',
+        description: 'description',
+        msgs: []
+      })
+    ).rejects.toThrow('the DAO is currently inactive, you cannot create proposals');
+
+    let ret = await client.execute(
+      senderAddress,
+      govTokenContract.contractAddress,
+      {
+        send: {
+          contract: stakingContract.contractAddress,
+          amount: '100',
+          msg: toBinary({
+            stake: {}
+          })
+        }
+      } as Cw20BaseTypes.ExecuteMsg,
+      'auto'
+    );
+    console.dir(ret, { depth: null });
+
+    client.app.store.tx((setter) => {
+      setter('height')(client.app.height + 1);
+      setter('time')(client.app.time + 5 * 1e9);
+      return Ok(true);
+    });
+
+    // make_proposal
+    // Unstake some tokens to make it inactive again.
+
+    ret = await govTokenContract.unstake({
+      amount: '50'
+    });
+
+    await expect(
+      proposalModuleContract.propose({
+        title: 'title',
+        description: 'description',
+        msgs: []
+      })
+    ).rejects.toThrow('the DAO is currently inactive, you cannot create proposals');
   });
 });

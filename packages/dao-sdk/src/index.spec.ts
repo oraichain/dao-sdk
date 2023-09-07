@@ -1,12 +1,11 @@
-import * as daoArtifacts from '@oraichain/dao-contracts-build';
+import { coin } from '@cosmjs/amino';
+import { toBinary } from '@cosmjs/cosmwasm-stargate';
 import * as commonArtifacts from '@oraichain/common-contracts-build';
-import fs from 'fs';
-import { DaoDaoCoreClient, DaoDaoCoreTypes } from '@oraichain/dao-contracts-sdk';
 import { Cw20BaseTypes } from '@oraichain/common-contracts-sdk';
 import { SimulateCosmWasmClient } from '@oraichain/cw-simulate';
-import { Ok } from 'ts-results';
-import { coin, coins } from '@cosmjs/amino';
-import { toBinary } from '@cosmjs/cosmwasm-stargate';
+import * as daoArtifacts from '@oraichain/dao-contracts-build';
+import { DaoDaoCoreClient, DaoDaoCoreTypes } from '@oraichain/dao-contracts-sdk';
+import fs from 'fs';
 
 const client = new SimulateCosmWasmClient({
   bech32Prefix: 'orai',

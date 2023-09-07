@@ -7,6 +7,8 @@
     "build/"
   ],
   "dependencies": {
+    "@oraichain/common-contracts-build": "^1.0.26",
+    "@oraichain/common-contracts-sdk": "^1.0.24",
     "@oraichain/dao-contracts-build": "1.0.0",
     "@oraichain/dao-contracts-sdk": "1.0.0"
   },

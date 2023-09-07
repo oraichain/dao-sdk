@@ -1,22 +1,12 @@
 import { coin, coins } from '@cosmjs/amino';
-import { SigningCosmWasmClient, toBinary } from '@cosmjs/cosmwasm-stargate';
+import { toBinary } from '@cosmjs/cosmwasm-stargate';
 import * as commonArtifacts from '@oraichain/common-contracts-build';
-import { CosmosMsgForEmpty, Cw20BaseClient, Cw20BaseTypes } from '@oraichain/common-contracts-sdk';
+import { CosmosMsgForEmpty, Cw20BaseTypes } from '@oraichain/common-contracts-sdk';
 import { SimulateCosmWasmClient } from '@oraichain/cw-simulate';
 import * as daoArtifacts from '@oraichain/dao-contracts-build';
-import { Ok } from 'ts-results';
-import {
-  Cw20StakeClient,
-  Cw20StakeTypes,
-  DaoDaoCoreClient,
-  DaoDaoCoreTypes,
-  DaoPreProposeSingleClient,
-  DaoProposalSingleClient,
-  DaoProposalSingleTypes,
-  DaoVotingCw20StakedClient,
-  DaoVotingCw20StakedTypes
-} from '@oraichain/dao-contracts-sdk';
+import { Cw20StakeClient, DaoDaoCoreClient, DaoDaoCoreTypes, DaoPreProposeSingleClient, DaoProposalSingleClient, DaoProposalSingleTypes, DaoVotingCw20StakedClient, DaoVotingCw20StakedTypes } from '@oraichain/dao-contracts-sdk';
 import fs from 'fs';
+import { Ok } from 'ts-results';
 
 const client = new SimulateCosmWasmClient({
   bech32Prefix: 'orai',

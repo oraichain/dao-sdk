@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {Uint128, Addr, Binary} from "./types";
-import {InstantiateMsg, ExecuteMsg, ApproverProposeMessage, DepositToken, UncheckedDenom, DepositRefundPolicy, Status, UncheckedDepositInfo, Empty, QueryMsg, QueryExt, CheckedDenom, Config, CheckedDepositInfo, DepositInfoResponse, HooksResponse} from "./DaoPreProposeApprover.types";
+import {Uint128, Empty, Addr, Binary} from "./types";
+import {InstantiateMsg, ExecuteMsg, ApproverProposeMessage, DepositToken, UncheckedDenom, DepositRefundPolicy, Status, UncheckedDepositInfo, QueryMsg, QueryExt, CheckedDenom, Config, CheckedDepositInfo, DepositInfoResponse, HooksResponse} from "./DaoPreProposeApprover.types";
 export interface DaoPreProposeApproverReadOnlyInterface {
   contractAddress: string;
   proposalModule: () => Promise<Addr>;

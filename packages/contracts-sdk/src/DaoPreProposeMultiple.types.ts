@@ -1,4 +1,4 @@
-import {Uint128, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Addr} from "./types";
+import {Uint128, Empty, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, IbcTimeout, IbcTimeoutBlock, Addr} from "./types";
 export type DepositToken = {
   token: {
     denom: UncheckedDenom;
@@ -22,7 +22,6 @@ export interface UncheckedDepositInfo {
   denom: DepositToken;
   refund_policy: DepositRefundPolicy;
 }
-export interface Empty {}
 export type ExecuteMsg = {
   propose: {
     msg: ProposeMessage;
@@ -69,18 +68,6 @@ export interface MultipleChoiceOption {
   description: string;
   msgs: CosmosMsgForEmpty[];
   title: string;
-}
-export interface Coin {
-  amount: Uint128;
-  denom: string;
-}
-export interface IbcTimeout {
-  block?: IbcTimeoutBlock | null;
-  timestamp?: Timestamp | null;
-}
-export interface IbcTimeoutBlock {
-  height: number;
-  revision: number;
 }
 export type QueryMsg = {
   proposal_module: {};

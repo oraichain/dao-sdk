@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
-import {Uint128} from "./types";
-import {InstantiateMsg, ExecuteMsg, Metadata, DenomUnit, QueryMsg, SudoMsg, Coin, BlacklisteesResponse, StatusInfo, BlacklisterAllowancesResponse, AllowanceResponse, AllowancesResponse, AllowanceInfo, DenomResponse, FreezerAllowancesResponse, StatusResponse, IsFrozenResponse, OwnerResponse, WhitelisteesResponse, WhitelisterAllowancesResponse} from "./CwTokenfactoryIssuer.types";
+import {Uint128, Coin} from "./types";
+import {InstantiateMsg, ExecuteMsg, Metadata, DenomUnit, QueryMsg, SudoMsg, BlacklisteesResponse, StatusInfo, BlacklisterAllowancesResponse, AllowanceResponse, AllowancesResponse, AllowanceInfo, DenomResponse, FreezerAllowancesResponse, StatusResponse, IsFrozenResponse, OwnerResponse, WhitelisteesResponse, WhitelisterAllowancesResponse} from "./CwTokenfactoryIssuer.types";
 export interface CwTokenfactoryIssuerReadOnlyInterface {
   contractAddress: string;
   isFrozen: () => Promise<IsFrozenResponse>;

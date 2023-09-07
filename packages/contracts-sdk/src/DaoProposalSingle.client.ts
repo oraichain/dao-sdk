@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
-import {Binary, Decimal, Uint128, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Addr} from "./types";
-import {Duration, PreProposeInfo, Admin, Threshold, PercentageThreshold, InstantiateMsg, ModuleInstantiateInfo, ExecuteMsg, Vote, SingleChoiceProposeMsg, Coin, Empty, IbcTimeout, IbcTimeoutBlock, QueryMsg, MigrateMsg, Config, VoteResponse, VoteInfo, InfoResponse, ContractVersion, Expiration, Status, ProposalListResponse, ProposalResponse, SingleChoiceProposal, Votes, VoteListResponse, ProposalCreationPolicy, HooksResponse} from "./DaoProposalSingle.types";
+import {Binary, Decimal, Uint128, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr} from "./types";
+import {Duration, PreProposeInfo, Admin, Threshold, PercentageThreshold, InstantiateMsg, ModuleInstantiateInfo, ExecuteMsg, Vote, SingleChoiceProposeMsg, QueryMsg, MigrateMsg, Config, VoteResponse, VoteInfo, InfoResponse, ContractVersion, Expiration, Status, ProposalListResponse, ProposalResponse, SingleChoiceProposal, Votes, VoteListResponse, ProposalCreationPolicy, HooksResponse} from "./DaoProposalSingle.types";
 export interface DaoProposalSingleReadOnlyInterface {
   contractAddress: string;
   config: () => Promise<Config>;

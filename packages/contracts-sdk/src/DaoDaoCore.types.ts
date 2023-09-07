@@ -1,4 +1,4 @@
-import {Binary, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Addr} from "./types";
+import {Binary, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr} from "./types";
 export type Admin = {
   address: {
     addr: string;
@@ -95,19 +95,6 @@ export type Duration = {
 } | {
   time: number;
 };
-export interface Coin {
-  amount: Uint128;
-  denom: string;
-}
-export interface Empty {}
-export interface IbcTimeout {
-  block?: IbcTimeoutBlock | null;
-  timestamp?: Timestamp | null;
-}
-export interface IbcTimeoutBlock {
-  height: number;
-  revision: number;
-}
 export interface Cw20ReceiveMsg {
   amount: Uint128;
   msg: Binary;

@@ -1,4 +1,4 @@
-import {Binary, Decimal, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Addr} from "./types";
+import {Binary, Decimal, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr} from "./types";
 export type Duration = {
   height: number;
 } | {
@@ -107,19 +107,6 @@ export interface MultipleChoiceOption {
   description: string;
   msgs: CosmosMsgForEmpty[];
   title: string;
-}
-export interface Coin {
-  amount: Uint128;
-  denom: string;
-}
-export interface Empty {}
-export interface IbcTimeout {
-  block?: IbcTimeoutBlock | null;
-  timestamp?: Timestamp | null;
-}
-export interface IbcTimeoutBlock {
-  height: number;
-  revision: number;
 }
 export interface MultipleChoiceVote {
   option_id: number;

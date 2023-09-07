@@ -3,9 +3,13 @@ export type Binary = string;
 export type Timestamp = Uint64;
 export type Uint64 = string;
 export type Addr = string;
-export type Null = null;
 export type Decimal = string;
 export type Boolean = boolean;
+export type Null = null;
+export interface Coin {
+  amount: Uint128;
+  denom: string;
+}
 export type CosmosMsgForEmpty = {
   bank: BankMsg;
 } | {
@@ -117,4 +121,13 @@ export type GovMsg = {
   };
 };
 export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
+export interface Empty {}
+export interface IbcTimeout {
+  block?: IbcTimeoutBlock | null;
+  timestamp?: Timestamp | null;
+}
+export interface IbcTimeoutBlock {
+  height: number;
+  revision: number;
+}
 export { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";

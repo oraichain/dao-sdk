@@ -1,4 +1,4 @@
-import {Uint128, Addr, Binary} from "./types";
+import {Uint128, Empty, Addr, Binary} from "./types";
 export interface InstantiateMsg {
   pre_propose_approval_contract: string;
 }
@@ -59,7 +59,6 @@ export interface UncheckedDepositInfo {
   denom: DepositToken;
   refund_policy: DepositRefundPolicy;
 }
-export interface Empty {}
 export type QueryMsg = {
   proposal_module: {};
 } | {

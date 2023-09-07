@@ -1,4 +1,4 @@
-import {Uint128} from "./types";
+import {Uint128, Coin} from "./types";
 export type InstantiateMsg = {
   new_token: {
     subdenom: string;
@@ -168,10 +168,6 @@ export type SudoMsg = {
     to: string;
   };
 };
-export interface Coin {
-  amount: Uint128;
-  denom: string;
-}
 export interface BlacklisteesResponse {
   blacklistees: StatusInfo[];
 }

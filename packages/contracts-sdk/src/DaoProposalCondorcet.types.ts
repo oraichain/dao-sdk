@@ -1,4 +1,4 @@
-import {Decimal, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Addr} from "./types";
+import {Decimal, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr} from "./types";
 export type Duration = {
   height: number;
 } | {
@@ -37,19 +37,6 @@ export type ExecuteMsg = {
 };
 export interface Choice {
   msgs: CosmosMsgForEmpty[];
-}
-export interface Coin {
-  amount: Uint128;
-  denom: string;
-}
-export interface Empty {}
-export interface IbcTimeout {
-  block?: IbcTimeoutBlock | null;
-  timestamp?: Timestamp | null;
-}
-export interface IbcTimeoutBlock {
-  height: number;
-  revision: number;
 }
 export interface UncheckedConfig {
   close_proposals_on_execution_failure: boolean;

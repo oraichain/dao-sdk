@@ -1,4 +1,4 @@
-import {Binary, Decimal, Uint128, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Addr} from "./types";
+import {Binary, Decimal, Uint128, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr} from "./types";
 export type Duration = {
   height: number;
 } | {
@@ -110,19 +110,6 @@ export interface SingleChoiceProposeMsg {
   msgs: CosmosMsgForEmpty[];
   proposer?: string | null;
   title: string;
-}
-export interface Coin {
-  amount: Uint128;
-  denom: string;
-}
-export interface Empty {}
-export interface IbcTimeout {
-  block?: IbcTimeoutBlock | null;
-  timestamp?: Timestamp | null;
-}
-export interface IbcTimeoutBlock {
-  height: number;
-  revision: number;
 }
 export type QueryMsg = {
   config: {};

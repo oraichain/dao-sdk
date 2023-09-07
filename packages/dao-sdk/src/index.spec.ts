@@ -1,7 +1,7 @@
-import { coin } from '@cosmjs/amino';
+import { coin, coins } from '@cosmjs/amino';
 import { SigningCosmWasmClient, toBinary } from '@cosmjs/cosmwasm-stargate';
 import * as commonArtifacts from '@oraichain/common-contracts-build';
-import { Cw20BaseClient, Cw20BaseTypes } from '@oraichain/common-contracts-sdk';
+import { CosmosMsgForEmpty, Cw20BaseClient, Cw20BaseTypes } from '@oraichain/common-contracts-sdk';
 import { SimulateCosmWasmClient } from '@oraichain/cw-simulate';
 import * as daoArtifacts from '@oraichain/dao-contracts-build';
 import { Ok } from 'ts-results';
@@ -11,7 +11,6 @@ import {
   DaoDaoCoreClient,
   DaoDaoCoreTypes,
   DaoPreProposeSingleClient,
-  DaoPreProposeSingleTypes,
   DaoProposalSingleClient,
   DaoProposalSingleTypes,
   DaoVotingCw20StakedClient,
@@ -25,16 +24,60 @@ const client = new SimulateCosmWasmClient({
   metering: true
 });
 const senderAddress = 'orai12zyu8w93h0q2lcnt50g3fn0w3yqnhy4fvawaqz';
-const bobAddress = 'orai18cgmaec32hgmd8ls8w44hjn25qzjwhannd9kpj';
 
-const makeProposal = async (client: SigningCosmWasmClient, proposalSingleContract: DaoProposalSingleClient, msg: any[]) => {
+const makeProposal = async (proposalSingleContract: DaoProposalSingleClient, msgs: CosmosMsgForEmpty[] = [], proposer = senderAddress, title = 'title', description = 'description') => {
   const proposalCreationPolicy = await proposalSingleContract.proposalCreationPolicy();
-  let funds;
-  if ('anyone' in proposalCreationPolicy) {
-    funds = [];
-  } else {
+  let funds = [];
+  if ('module' in proposalCreationPolicy) {
     const preProposeContract = new DaoPreProposeSingleClient(client, senderAddress, proposalCreationPolicy.module.addr);
+    const { deposit_info } = await preProposeContract.config();
+    if (deposit_info) {
+      const { denom, amount } = deposit_info;
+      if ('native' in denom) {
+        funds = coins(amount, denom.native);
+      } else {
+        // Give an allowance, no funds.
+        await client.execute(
+          proposer,
+          denom.cw20,
+          {
+            increase_allowance: {
+              spender: preProposeContract.contractAddress,
+              amount
+            }
+          } as Cw20BaseTypes.ExecuteMsg,
+          'auto'
+        );
+      }
+    }
+
+    await preProposeContract.propose(
+      {
+        msg: {
+          propose: {
+            title,
+            description,
+            msgs
+          }
+        }
+      },
+      'auto',
+      undefined,
+      funds
+    );
+  } else {
+    // anyone
+    await proposalSingleContract.propose({
+      title,
+      description,
+      msgs
+    });
   }
+
+  let proposalId = Number(await proposalSingleContract.nextProposalId()) - 1;
+  // Check that the proposal was created as expected.
+  const proposal = await proposalSingleContract.proposal({ proposalId });
+  return proposal;
 };
 
 describe('simple_case', () => {
@@ -111,11 +154,11 @@ describe('simple_case', () => {
 
   it('create-proposal', async () => {
     const votingModuleContract = new DaoVotingCw20StakedClient(client, senderAddress, await daoContract.votingModule());
-    const govTokenContract = new Cw20StakeClient(client, senderAddress, await votingModuleContract.tokenContract());
+    const govTokenAddress = await votingModuleContract.tokenContract();
     const proposalModules = await daoContract.proposalModules({});
     expect(proposalModules.length).toEqual(1);
     const proposalModuleContract = new DaoProposalSingleClient(client, senderAddress, proposalModules.find((m) => m.status === 'enabled').address);
-    const stakingContract = new DaoVotingCw20StakedClient(client, senderAddress, await votingModuleContract.stakingContract());
+    const stakingContract = new Cw20StakeClient(client, senderAddress, await votingModuleContract.stakingContract());
 
     await expect(
       proposalModuleContract.propose({
@@ -127,7 +170,7 @@ describe('simple_case', () => {
 
     let ret = await client.execute(
       senderAddress,
-      govTokenContract.contractAddress,
+      govTokenAddress,
       {
         send: {
           contract: stakingContract.contractAddress,
@@ -148,9 +191,11 @@ describe('simple_case', () => {
     });
 
     // make_proposal
-    // Unstake some tokens to make it inactive again.
+    const proposal = await makeProposal(proposalModuleContract);
+    console.dir(proposal, { depth: null });
 
-    ret = await govTokenContract.unstake({
+    // Unstake some tokens to make it inactive again.
+    ret = await stakingContract.unstake({
       amount: '50'
     });
 

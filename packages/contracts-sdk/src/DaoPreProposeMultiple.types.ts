@@ -1,4 +1,4 @@
-import {Uint128, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, Addr} from "./types";
+import {Uint128, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Addr} from "./types";
 export type DepositToken = {
   token: {
     denom: UncheckedDenom;
@@ -61,7 +61,6 @@ export type ProposeMessage = {
     title: string;
   };
 };
-export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
 export type Status = "open" | "rejected" | "passed" | "executed" | "closed" | "execution_failed";
 export interface MultipleChoiceOptions {
   options: MultipleChoiceOption[];

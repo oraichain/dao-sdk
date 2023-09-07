@@ -1,4 +1,4 @@
-import {Binary, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, Addr} from "./types";
+import {Binary, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Addr} from "./types";
 export type Admin = {
   address: {
     addr: string;
@@ -90,7 +90,6 @@ export type ExecuteMsg = {
     to_remove: string[];
   };
 };
-export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
 export type Duration = {
   height: number;
 } | {

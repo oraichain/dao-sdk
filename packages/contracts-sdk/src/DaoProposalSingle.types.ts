@@ -1,4 +1,4 @@
-import {Binary, Decimal, Uint128, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, Addr} from "./types";
+import {Binary, Decimal, Uint128, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Addr} from "./types";
 export type Duration = {
   height: number;
 } | {
@@ -104,7 +104,6 @@ export type ExecuteMsg = {
     address: string;
   };
 };
-export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
 export type Vote = "yes" | "no" | "abstain";
 export interface SingleChoiceProposeMsg {
   description: string;

@@ -1,4 +1,4 @@
-import {Decimal, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, Addr} from "./types";
+import {Decimal, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Addr} from "./types";
 export type Duration = {
   height: number;
 } | {
@@ -35,7 +35,6 @@ export type ExecuteMsg = {
 } | {
   set_config: UncheckedConfig;
 };
-export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
 export interface Choice {
   msgs: CosmosMsgForEmpty[];
 }

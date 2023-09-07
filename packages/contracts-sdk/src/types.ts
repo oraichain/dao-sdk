@@ -1,9 +1,9 @@
+export type Uint128 = string;
 export type Binary = string;
 export type Timestamp = Uint64;
 export type Uint64 = string;
-export type Null = null;
-export type Uint128 = string;
 export type Addr = string;
+export type Null = null;
 export type Decimal = string;
 export type Boolean = boolean;
 export type CosmosMsgForEmpty = {
@@ -116,4 +116,5 @@ export type GovMsg = {
     vote: VoteOption;
   };
 };
+export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
 export { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";

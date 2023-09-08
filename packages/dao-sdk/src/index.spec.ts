@@ -204,5 +204,10 @@ describe('simple_case', () => {
 
     const vote = await proposalModuleContract.getVote({ proposalId: proposal.id, voter: senderAddress });
     console.log(vote);
+
+    const {
+      proposal: { status }
+    } = await proposalModuleContract.proposal({ proposalId: proposal.id });
+    expect(status === 'passed').toBeTruthy();
   });
 });

@@ -196,5 +196,13 @@ describe('simple_case', () => {
         msgs: []
       })
     ).rejects.toThrow('the DAO is currently inactive, you cannot create proposals');
+
+    await proposalModuleContract.vote({
+      proposalId: proposal.id,
+      vote: 'yes'
+    });
+
+    const vote = await proposalModuleContract.getVote({ proposalId: proposal.id, voter: senderAddress });
+    console.log(vote);
   });
 });

@@ -10,8 +10,7 @@ import { Ok } from 'ts-results';
 
 const client = new SimulateCosmWasmClient({
   bech32Prefix: 'orai',
-  chainId: 'Oraichain',
-  metering: true
+  chainId: 'Oraichain'
 });
 const senderAddress = 'orai12zyu8w93h0q2lcnt50g3fn0w3yqnhy4fvawaqz';
 

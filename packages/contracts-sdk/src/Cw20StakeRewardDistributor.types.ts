@@ -1,4 +1,4 @@
-import {Uint128, Timestamp, Uint64, Addr} from "./types";
+import {Uint128, Action, Expiration, Timestamp, Uint64, Addr, InfoResponse, Config, OwnershipForAddr} from "./types";
 export interface InstantiateMsg {
   owner: string;
   reward_rate: Uint128;
@@ -18,19 +18,6 @@ export type ExecuteMsg = {
 } | {
   update_ownership: Action;
 };
-export type Action = {
-  transfer_ownership: {
-    expiry?: Expiration | null;
-    new_owner: string;
-  };
-} | "accept_ownership" | "renounce_ownership";
-export type Expiration = {
-  at_height: number;
-} | {
-  at_time: Timestamp;
-} | {
-  never: {};
-};
 export type QueryMsg = {
   info: {};
 } | {
@@ -39,18 +26,3 @@ export type QueryMsg = {
 export type MigrateMsg = {
   from_v1: {};
 };
-export interface InfoResponse {
-  balance: Uint128;
-  config: Config;
-  last_payment_block: number;
-}
-export interface Config {
-  reward_rate: Uint128;
-  reward_token: Addr;
-  staking_addr: Addr;
-}
-export interface OwnershipForAddr {
-  owner?: Addr | null;
-  pending_expiry?: Expiration | null;
-  pending_owner?: Addr | null;
-}

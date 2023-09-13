@@ -1,4 +1,4 @@
-import {Binary, Timestamp, Uint64, Null} from "./types";
+import {Binary, Expiration, Timestamp, Uint64, Action, MetadataExt} from "./types";
 export interface InstantiateMsg {
   minter: string;
   name: string;
@@ -53,13 +53,6 @@ export type ExecuteMsg = {
 } | {
   update_ownership: Action;
 };
-export type Expiration = {
-  at_height: number;
-} | {
-  at_time: Timestamp;
-} | {
-  never: {};
-};
 export type ExecuteExt = {
   add_hook: {
     addr: string;
@@ -84,16 +77,6 @@ export type ExecuteExt = {
     token_id: string;
   };
 };
-export type Action = {
-  transfer_ownership: {
-    expiry?: Expiration | null;
-    new_owner: string;
-  };
-} | "accept_ownership" | "renounce_ownership";
-export interface MetadataExt {
-  role?: string | null;
-  weight: number;
-}
 export type QueryMsg = {
   owner_of: {
     include_expired?: boolean | null;
@@ -205,6 +188,7 @@ export interface ContractInfoResponse {
   name: string;
   symbol: string;
 }
+export type Null = null;
 export interface MinterResponse {
   minter?: string | null;
 }

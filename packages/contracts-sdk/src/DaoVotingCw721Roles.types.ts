@@ -1,4 +1,4 @@
-import {Addr, Uint128} from "./types";
+import {MetadataExt, Addr, Config, InfoResponse, ContractVersion, Uint128, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./types";
 export type NftContract = {
   existing: {
     address: string;
@@ -21,10 +21,6 @@ export interface NftMintMsg {
   token_id: string;
   token_uri?: string | null;
 }
-export interface MetadataExt {
-  role?: string | null;
-  weight: number;
-}
 export type ExecuteMsg = string;
 export type QueryMsg = {
   config: {};
@@ -42,21 +38,3 @@ export type QueryMsg = {
 } | {
   info: {};
 };
-export interface Config {
-  nft_address: Addr;
-}
-export interface InfoResponse {
-  info: ContractVersion;
-}
-export interface ContractVersion {
-  contract: string;
-  version: string;
-}
-export interface TotalPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
-}
-export interface VotingPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
-}

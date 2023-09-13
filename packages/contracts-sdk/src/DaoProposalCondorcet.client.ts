@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
-import {Decimal, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr} from "./types";
-import {Duration, PercentageThreshold, InstantiateMsg, ExecuteMsg, Choice, UncheckedConfig, QueryMsg, Config, InfoResponse, ContractVersion, Status, Expiration, Cell, Winner, ProposalResponse, Proposal, Tally, M} from "./DaoProposalCondorcet.types";
+import {Duration, PercentageThreshold, Decimal, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Config, Addr, InfoResponse, ContractVersion, Status, Expiration, ProposalResponse} from "./types";
+import {InstantiateMsg, ExecuteMsg, Choice, UncheckedConfig, QueryMsg, Cell, Winner, Proposal, Tally, M} from "./DaoProposalCondorcet.types";
 export interface DaoProposalCondorcetReadOnlyInterface {
   contractAddress: string;
   proposal: ({

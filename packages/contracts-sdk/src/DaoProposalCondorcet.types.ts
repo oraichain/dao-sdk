@@ -1,14 +1,4 @@
-import {Decimal, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr} from "./types";
-export type Duration = {
-  height: number;
-} | {
-  time: number;
-};
-export type PercentageThreshold = {
-  majority: {};
-} | {
-  percent: Decimal;
-};
+import {Duration, PercentageThreshold, Decimal, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Config, Addr, InfoResponse, ContractVersion, Status, Expiration, ProposalResponse} from "./types";
 export interface InstantiateMsg {
   close_proposals_on_execution_failure: boolean;
   min_voting_period?: Duration | null;
@@ -57,31 +47,6 @@ export type QueryMsg = {
 } | {
   next_proposal_id: {};
 };
-export interface Config {
-  close_proposals_on_execution_failure: boolean;
-  min_voting_period?: Duration | null;
-  quorum: PercentageThreshold;
-  voting_period: Duration;
-}
-export interface InfoResponse {
-  info: ContractVersion;
-}
-export interface ContractVersion {
-  contract: string;
-  version: string;
-}
-export type Status = "open" | "rejected" | {
-  passed: {
-    winner: number;
-  };
-} | "executed" | "closed" | "execution_failed";
-export type Expiration = {
-  at_height: number;
-} | {
-  at_time: Timestamp;
-} | {
-  never: {};
-};
 export type Cell = "zero" | {
   positive: Uint128;
 } | {
@@ -92,10 +57,6 @@ export type Winner = ("never" | "none") | {
 } | {
   undisputed: number;
 };
-export interface ProposalResponse {
-  proposal: Proposal;
-  tally: Tally;
-}
 export interface Proposal {
   choices: Choice[];
   close_on_execution_failure: boolean;

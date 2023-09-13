@@ -1,4 +1,4 @@
-import {Addr, Uint128} from "./types";
+import {Addr, InfoResponse, ContractVersion, Uint128, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./types";
 export type GroupContract = {
   existing: {
     address: string;
@@ -34,18 +34,3 @@ export type QueryMsg = {
   info: {};
 };
 export interface MigrateMsg {}
-export interface InfoResponse {
-  info: ContractVersion;
-}
-export interface ContractVersion {
-  contract: string;
-  version: string;
-}
-export interface TotalPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
-}
-export interface VotingPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
-}

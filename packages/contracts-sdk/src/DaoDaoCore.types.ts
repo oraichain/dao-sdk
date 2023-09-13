@@ -1,11 +1,4 @@
-import {Binary, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr} from "./types";
-export type Admin = {
-  address: {
-    addr: string;
-  };
-} | {
-  core_module: {};
-};
+import {Admin, Binary, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Duration, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Cw20ReceiveMsg, Cw721ReceiveMsg, Config, PreProposeInfo, Addr, Expiration, ContractVersion, InfoResponse, ArrayOfString, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./types";
 export interface InstantiateMsg {
   admin?: string | null;
   automatically_add_cw20s: boolean;
@@ -21,12 +14,6 @@ export interface InstantiateMsg {
 export interface InitialItem {
   key: string;
   value: string;
-}
-export interface ModuleInstantiateInfo {
-  admin?: Admin | null;
-  code_id: number;
-  label: string;
-  msg: Binary;
 }
 export type ExecuteMsg = {
   execute_admin_msgs: {
@@ -90,29 +77,6 @@ export type ExecuteMsg = {
     to_remove: string[];
   };
 };
-export type Duration = {
-  height: number;
-} | {
-  time: number;
-};
-export interface Cw20ReceiveMsg {
-  amount: Uint128;
-  msg: Binary;
-  sender: string;
-}
-export interface Cw721ReceiveMsg {
-  msg: Binary;
-  sender: string;
-  token_id: string;
-}
-export interface Config {
-  automatically_add_cw20s: boolean;
-  automatically_add_cw721s: boolean;
-  dao_uri?: string | null;
-  description: string;
-  image_url?: string | null;
-  name: string;
-}
 export interface SubDao {
   addr: string;
   charter?: string | null;
@@ -192,13 +156,6 @@ export type MigrateMsg = {
 } | {
   from_compatible: {};
 };
-export type PreProposeInfo = {
-  anyone_may_propose: {};
-} | {
-  module_may_propose: {
-    info: ModuleInstantiateInfo;
-  };
-};
 export interface MigrateParams {
   migrator_code_id: number;
   params: MigrateV1ToV2;
@@ -254,13 +211,6 @@ export type PauseInfoResponse = {
 } | {
   unpaused: {};
 };
-export type Expiration = {
-  at_height: number;
-} | {
-  at_time: Timestamp;
-} | {
-  never: {};
-};
 export interface DumpStateResponse {
   active_proposal_module_count: number;
   admin: Addr;
@@ -271,27 +221,11 @@ export interface DumpStateResponse {
   version: ContractVersion;
   voting_module: Addr;
 }
-export interface ContractVersion {
-  contract: string;
-  version: string;
-}
 export interface GetItemResponse {
   item?: string | null;
 }
-export interface InfoResponse {
-  info: ContractVersion;
-}
-export type ArrayOfString = string[];
 export type ArrayOfSubDao = SubDao[];
 export interface ProposalModuleCountResponse {
   active_proposal_module_count: number;
   total_proposal_module_count: number;
-}
-export interface TotalPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
-}
-export interface VotingPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
 }

@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {Uint128, Decimal, Binary, Addr, Boolean} from "./types";
-import {ActiveThreshold, TokenInfo, StakingInfo, Duration, Logo, EmbeddedLogo, InstantiateMsg, Cw20Coin, InstantiateMarketingInfo, ExecuteMsg, QueryMsg, MigrateMsg, ActiveThresholdResponse, InfoResponse, ContractVersion, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./CwFundDistributor.types";
+import {ActiveThreshold, Uint128, Decimal, TokenInfo, StakingInfo, Duration, Logo, EmbeddedLogo, Binary, Cw20Coin, InstantiateMarketingInfo, ActiveThresholdResponse, Addr, InfoResponse, ContractVersion, Boolean, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./types";
+import {InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg} from "./CwFundDistributor.types";
 export interface CwFundDistributorReadOnlyInterface {
   contractAddress: string;
   stakingContract: () => Promise<Addr>;

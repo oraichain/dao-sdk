@@ -1,9 +1,4 @@
-import {Uint128, Binary, Timestamp, Uint64, Addr} from "./types";
-export type Duration = {
-  height: number;
-} | {
-  time: number;
-};
+import {Duration, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, ClaimsResponse, Claim, Addr, Config, GetHooksResponse, ListStakersResponse, StakerBalanceResponse, OwnershipForAddr} from "./types";
 export interface InstantiateMsg {
   owner?: string | null;
   token_address: string;
@@ -32,24 +27,6 @@ export type ExecuteMsg = {
 } | {
   update_ownership: Action;
 };
-export type Action = {
-  transfer_ownership: {
-    expiry?: Expiration | null;
-    new_owner: string;
-  };
-} | "accept_ownership" | "renounce_ownership";
-export type Expiration = {
-  at_height: number;
-} | {
-  at_time: Timestamp;
-} | {
-  never: {};
-};
-export interface Cw20ReceiveMsg {
-  amount: Uint128;
-  msg: Binary;
-  sender: string;
-}
 export type QueryMsg = {
   staked_balance_at_height: {
     address: string;
@@ -84,32 +61,6 @@ export type QueryMsg = {
 export type MigrateMsg = {
   from_v1: {};
 };
-export interface ClaimsResponse {
-  claims: Claim[];
-}
-export interface Claim {
-  amount: Uint128;
-  release_at: Expiration;
-}
-export interface Config {
-  token_address: Addr;
-  unstaking_duration?: Duration | null;
-}
-export interface GetHooksResponse {
-  hooks: string[];
-}
-export interface ListStakersResponse {
-  stakers: StakerBalanceResponse[];
-}
-export interface StakerBalanceResponse {
-  address: string;
-  balance: Uint128;
-}
-export interface OwnershipForAddr {
-  owner?: Addr | null;
-  pending_expiry?: Expiration | null;
-  pending_owner?: Addr | null;
-}
 export interface StakedBalanceAtHeightResponse {
   balance: Uint128;
   height: number;

@@ -1,12 +1,4 @@
-import {Uint128, Timestamp, Uint64, Binary, Addr} from "./types";
-export type UncheckedDenom = {
-  native: string;
-} | {
-  cw20: string;
-};
-export type Schedule = "saturating_linear" | {
-  piecewise_linear: [number, Uint128][];
-};
+import {UncheckedDenom, Schedule, Uint128, Timestamp, Uint64, Binary, Action, Expiration, Cw20ReceiveMsg, CheckedDenom, Addr, Status, OwnershipForAddr} from "./types";
 export interface InstantiateMsg {
   denom: UncheckedDenom;
   description?: string | null;
@@ -65,24 +57,6 @@ export type ExecuteMsg = {
 } | {
   update_ownership: Action;
 };
-export type Action = {
-  transfer_ownership: {
-    expiry?: Expiration | null;
-    new_owner: string;
-  };
-} | "accept_ownership" | "renounce_ownership";
-export type Expiration = {
-  at_height: number;
-} | {
-  at_time: Timestamp;
-} | {
-  never: {};
-};
-export interface Cw20ReceiveMsg {
-  amount: Uint128;
-  msg: Binary;
-  sender: string;
-}
 export type QueryMsg = {
   ownership: {};
 } | {
@@ -116,16 +90,6 @@ export type StakeTrackerQuery = {
     validator: string;
   };
 };
-export type CheckedDenom = {
-  native: string;
-} | {
-  cw20: Addr;
-};
-export type Status = ("unfunded" | "funded") | {
-  canceled: {
-    owner_withdrawable: Uint128;
-  };
-};
 export type Curve = {
   constant: {
     y: Uint128;
@@ -154,10 +118,5 @@ export interface SaturatingLinear {
 }
 export interface PiecewiseLinear {
   steps: [number, Uint128][];
-}
-export interface OwnershipForAddr {
-  owner?: Addr | null;
-  pending_expiry?: Expiration | null;
-  pending_owner?: Addr | null;
 }
 export type NullableUint64 = Uint64 | null;

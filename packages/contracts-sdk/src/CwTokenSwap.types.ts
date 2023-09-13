@@ -1,15 +1,4 @@
-import {Uint128, Binary, Addr} from "./types";
-export type TokenInfo = {
-  native: {
-    amount: Uint128;
-    denom: string;
-  };
-} | {
-  cw20: {
-    amount: Uint128;
-    contract_addr: string;
-  };
-};
+import {TokenInfo, Uint128, Binary, Cw20ReceiveMsg, Addr} from "./types";
 export interface InstantiateMsg {
   counterparty_one: Counterparty;
   counterparty_two: Counterparty;
@@ -25,11 +14,6 @@ export type ExecuteMsg = {
 } | {
   withdraw: {};
 };
-export interface Cw20ReceiveMsg {
-  amount: Uint128;
-  msg: Binary;
-  sender: string;
-}
 export type QueryMsg = {
   status: {};
 };

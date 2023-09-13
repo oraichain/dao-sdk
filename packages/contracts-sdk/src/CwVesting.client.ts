@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {Uint128, Timestamp, Uint64, Binary, Addr} from "./types";
-import {UncheckedDenom, Schedule, InstantiateMsg, ExecuteMsg, Action, Expiration, Cw20ReceiveMsg, QueryMsg, StakeTrackerQuery, CheckedDenom, Status, Curve, Vest, SaturatingLinear, PiecewiseLinear, OwnershipForAddr, NullableUint64} from "./CwVesting.types";
+import {UncheckedDenom, Schedule, Uint128, Timestamp, Uint64, Binary, Action, Expiration, Cw20ReceiveMsg, CheckedDenom, Addr, Status, OwnershipForAddr} from "./types";
+import {InstantiateMsg, ExecuteMsg, QueryMsg, StakeTrackerQuery, Curve, Vest, SaturatingLinear, PiecewiseLinear, NullableUint64} from "./CwVesting.types";
 export interface CwVestingReadOnlyInterface {
   contractAddress: string;
   ownership: () => Promise<OwnershipForAddr>;

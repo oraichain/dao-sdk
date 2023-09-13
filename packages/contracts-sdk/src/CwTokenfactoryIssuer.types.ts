@@ -1,4 +1,4 @@
-import {Uint128, Coin} from "./types";
+import {Uint128, DenomUnit, Coin, DenomResponse} from "./types";
 export type InstantiateMsg = {
   new_token: {
     subdenom: string;
@@ -85,11 +85,6 @@ export interface Metadata {
   display: string;
   name: string;
   symbol: string;
-}
-export interface DenomUnit {
-  aliases: string[];
-  denom: string;
-  exponent: number;
 }
 export type QueryMsg = {
   is_frozen: {};
@@ -187,9 +182,6 @@ export interface AllowancesResponse {
 export interface AllowanceInfo {
   address: string;
   allowance: Uint128;
-}
-export interface DenomResponse {
-  denom: string;
 }
 export interface FreezerAllowancesResponse {
   freezers: StatusInfo[];

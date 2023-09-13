@@ -1,32 +1,8 @@
-import {Binary, Decimal, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr} from "./types";
-export type Duration = {
-  height: number;
-} | {
-  time: number;
-};
-export type PreProposeInfo = {
-  anyone_may_propose: {};
-} | {
-  module_may_propose: {
-    info: ModuleInstantiateInfo;
-  };
-};
-export type Admin = {
-  address: {
-    addr: string;
-  };
-} | {
-  core_module: {};
-};
+import {Duration, PreProposeInfo, Admin, Binary, PercentageThreshold, Decimal, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, MultipleChoiceOptions, MultipleChoiceOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr, Config, VoteResponse, VoteInfo, InfoResponse, ContractVersion, Expiration, Status, ProposalListResponse, ProposalResponse, VoteListResponse, ProposalCreationPolicy, HooksResponse} from "./types";
 export type VotingStrategy = {
   single_choice: {
     quorum: PercentageThreshold;
   };
-};
-export type PercentageThreshold = {
-  majority: {};
-} | {
-  percent: Decimal;
 };
 export interface InstantiateMsg {
   allow_revoting: boolean;
@@ -36,12 +12,6 @@ export interface InstantiateMsg {
   only_members_execute: boolean;
   pre_propose_info: PreProposeInfo;
   voting_strategy: VotingStrategy;
-}
-export interface ModuleInstantiateInfo {
-  admin?: Admin | null;
-  code_id: number;
-  label: string;
-  msg: Binary;
 }
 export type ExecuteMsg = {
   propose: {
@@ -100,14 +70,6 @@ export type ExecuteMsg = {
     address: string;
   };
 };
-export interface MultipleChoiceOptions {
-  options: MultipleChoiceOption[];
-}
-export interface MultipleChoiceOption {
-  description: string;
-  msgs: CosmosMsgForEmpty[];
-  title: string;
-}
 export interface MultipleChoiceVote {
   option_id: number;
 }
@@ -161,47 +123,7 @@ export type MigrateMsg = {
 } | {
   from_compatible: {};
 };
-export interface Config {
-  allow_revoting: boolean;
-  close_proposal_on_execution_failure: boolean;
-  dao: Addr;
-  max_voting_period: Duration;
-  min_voting_period?: Duration | null;
-  only_members_execute: boolean;
-  voting_strategy: VotingStrategy;
-}
-export interface VoteResponse {
-  vote?: VoteInfo | null;
-}
-export interface VoteInfo {
-  power: Uint128;
-  rationale?: string | null;
-  vote: MultipleChoiceVote;
-  voter: Addr;
-}
-export interface InfoResponse {
-  info: ContractVersion;
-}
-export interface ContractVersion {
-  contract: string;
-  version: string;
-}
 export type MultipleChoiceOptionType = "standard" | "none";
-export type Expiration = {
-  at_height: number;
-} | {
-  at_time: Timestamp;
-} | {
-  never: {};
-};
-export type Status = "open" | "rejected" | "passed" | "executed" | "closed" | "execution_failed";
-export interface ProposalListResponse {
-  proposals: ProposalResponse[];
-}
-export interface ProposalResponse {
-  id: number;
-  proposal: MultipleChoiceProposal;
-}
 export interface MultipleChoiceProposal {
   allow_revoting: boolean;
   choices: CheckedMultipleChoiceOption[];
@@ -226,17 +148,4 @@ export interface CheckedMultipleChoiceOption {
 }
 export interface MultipleChoiceVotes {
   vote_weights: Uint128[];
-}
-export interface VoteListResponse {
-  votes: VoteInfo[];
-}
-export type ProposalCreationPolicy = {
-  anyone: {};
-} | {
-  module: {
-    addr: Addr;
-  };
-};
-export interface HooksResponse {
-  hooks: string[];
 }

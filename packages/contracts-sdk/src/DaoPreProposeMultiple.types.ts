@@ -1,26 +1,8 @@
-import {Uint128, Empty, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Coin, IbcTimeout, IbcTimeoutBlock, Addr} from "./types";
-export type DepositToken = {
-  token: {
-    denom: UncheckedDenom;
-  };
-} | {
-  voting_module_token: {};
-};
-export type UncheckedDenom = {
-  native: string;
-} | {
-  cw20: string;
-};
-export type DepositRefundPolicy = "always" | "only_passed" | "never";
+import {Uint128, DepositToken, UncheckedDenom, DepositRefundPolicy, UncheckedDepositInfo, Empty, ProposeMessage, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Status, MultipleChoiceOptions, MultipleChoiceOption, Coin, IbcTimeout, IbcTimeoutBlock, CheckedDenom, Addr, Config, CheckedDepositInfo, DepositInfoResponse, HooksResponse} from "./types";
 export interface InstantiateMsg {
   deposit_info?: UncheckedDepositInfo | null;
   extension: Empty;
   open_proposal_submission: boolean;
-}
-export interface UncheckedDepositInfo {
-  amount: Uint128;
-  denom: DepositToken;
-  refund_policy: DepositRefundPolicy;
 }
 export type ExecuteMsg = {
   propose: {
@@ -53,22 +35,6 @@ export type ExecuteMsg = {
     proposal_id: number;
   };
 };
-export type ProposeMessage = {
-  propose: {
-    choices: MultipleChoiceOptions;
-    description: string;
-    title: string;
-  };
-};
-export type Status = "open" | "rejected" | "passed" | "executed" | "closed" | "execution_failed";
-export interface MultipleChoiceOptions {
-  options: MultipleChoiceOption[];
-}
-export interface MultipleChoiceOption {
-  description: string;
-  msgs: CosmosMsgForEmpty[];
-  title: string;
-}
 export type QueryMsg = {
   proposal_module: {};
 } | {
@@ -86,24 +52,3 @@ export type QueryMsg = {
     msg: Empty;
   };
 };
-export type CheckedDenom = {
-  native: string;
-} | {
-  cw20: Addr;
-};
-export interface Config {
-  deposit_info?: CheckedDepositInfo | null;
-  open_proposal_submission: boolean;
-}
-export interface CheckedDepositInfo {
-  amount: Uint128;
-  denom: CheckedDenom;
-  refund_policy: DepositRefundPolicy;
-}
-export interface DepositInfoResponse {
-  deposit_info?: CheckedDepositInfo | null;
-  proposer: Addr;
-}
-export interface HooksResponse {
-  hooks: string[];
-}

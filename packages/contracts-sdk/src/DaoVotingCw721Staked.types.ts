@@ -1,13 +1,4 @@
-import {Uint128, Decimal, Binary, Addr, Boolean, Timestamp, Uint64} from "./types";
-export type ActiveThreshold = {
-  absolute_count: {
-    count: Uint128;
-  };
-} | {
-  percentage: {
-    percent: Decimal;
-  };
-};
+import {ActiveThreshold, Uint128, Decimal, Binary, Admin, Duration, Cw721ReceiveMsg, ActiveThresholdResponse, Addr, Config, HooksResponse, InfoResponse, ContractVersion, Boolean, Expiration, Timestamp, Uint64, ArrayOfString, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./types";
 export type NftContract = {
   existing: {
     address: string;
@@ -19,18 +10,6 @@ export type NftContract = {
     label: string;
     msg: Binary;
   };
-};
-export type Admin = {
-  address: {
-    addr: string;
-  };
-} | {
-  core_module: {};
-};
-export type Duration = {
-  height: number;
-} | {
-  time: number;
 };
 export interface InstantiateMsg {
   active_threshold?: ActiveThreshold | null;
@@ -64,11 +43,6 @@ export type ExecuteMsg = {
     new_threshold?: ActiveThreshold | null;
   };
 };
-export interface Cw721ReceiveMsg {
-  msg: Binary;
-  sender: string;
-  token_id: string;
-}
 export type QueryMsg = {
   config: {};
 } | {
@@ -101,44 +75,10 @@ export type QueryMsg = {
 } | {
   info: {};
 };
-export interface ActiveThresholdResponse {
-  active_threshold?: ActiveThreshold | null;
-}
-export interface Config {
-  nft_address: Addr;
-  owner?: Addr | null;
-  unstaking_duration?: Duration | null;
-}
-export interface HooksResponse {
-  hooks: string[];
-}
-export interface InfoResponse {
-  info: ContractVersion;
-}
-export interface ContractVersion {
-  contract: string;
-  version: string;
-}
-export type Expiration = {
-  at_height: number;
-} | {
-  at_time: Timestamp;
-} | {
-  never: {};
-};
 export interface NftClaimsResponse {
   nft_claims: NftClaim[];
 }
 export interface NftClaim {
   release_at: Expiration;
   token_id: string;
-}
-export type ArrayOfString = string[];
-export interface TotalPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
-}
-export interface VotingPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
 }

@@ -1,25 +1,4 @@
-import {Uint128, Decimal, Timestamp, Uint64, Addr, Boolean} from "./types";
-export type ActiveThreshold = {
-  absolute_count: {
-    count: Uint128;
-  };
-} | {
-  percentage: {
-    percent: Decimal;
-  };
-};
-export type TokenInfo = {
-  existing: {
-    denom: string;
-  };
-} | {
-  new: NewTokenInfo;
-};
-export type Duration = {
-  height: number;
-} | {
-  time: number;
-};
+import {ActiveThreshold, Uint128, Decimal, TokenInfo, Duration, DenomUnit, ActiveThresholdResponse, Expiration, Timestamp, Uint64, ClaimsResponse, Claim, Addr, DenomResponse, Config, GetHooksResponse, InfoResponse, ContractVersion, Boolean, ListStakersResponse, StakerBalanceResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./types";
 export interface InstantiateMsg {
   active_threshold?: ActiveThreshold | null;
   token_info: TokenInfo;
@@ -42,11 +21,6 @@ export interface NewDenomMetadata {
   display: string;
   name: string;
   symbol: string;
-}
-export interface DenomUnit {
-  aliases: string[];
-  denom: string;
-  exponent: number;
 }
 export type ExecuteMsg = {
   stake: {};
@@ -109,51 +83,3 @@ export type QueryMsg = {
   token_contract: {};
 };
 export interface MigrateMsg {}
-export interface ActiveThresholdResponse {
-  active_threshold?: ActiveThreshold | null;
-}
-export type Expiration = {
-  at_height: number;
-} | {
-  at_time: Timestamp;
-} | {
-  never: {};
-};
-export interface ClaimsResponse {
-  claims: Claim[];
-}
-export interface Claim {
-  amount: Uint128;
-  release_at: Expiration;
-}
-export interface DenomResponse {
-  denom: string;
-}
-export interface Config {
-  unstaking_duration?: Duration | null;
-}
-export interface GetHooksResponse {
-  hooks: string[];
-}
-export interface InfoResponse {
-  info: ContractVersion;
-}
-export interface ContractVersion {
-  contract: string;
-  version: string;
-}
-export interface ListStakersResponse {
-  stakers: StakerBalanceResponse[];
-}
-export interface StakerBalanceResponse {
-  address: string;
-  balance: Uint128;
-}
-export interface TotalPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
-}
-export interface VotingPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
-}

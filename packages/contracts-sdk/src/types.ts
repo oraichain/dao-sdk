@@ -25,24 +25,11 @@ export interface Cw20ReceiveMsg {
   msg: Binary;
   sender: string;
 }
-export interface ClaimsResponse {
-  claims: Claim[];
-}
 export interface Claim {
   amount: Uint128;
   release_at: Expiration;
 }
 export type Addr = string;
-export interface GetHooksResponse {
-  hooks: string[];
-}
-export interface ListStakersResponse {
-  stakers: StakerBalanceResponse[];
-}
-export interface StakerBalanceResponse {
-  address: string;
-  balance: Uint128;
-}
 export interface OwnershipForAddr {
   owner?: Addr | null;
   pending_expiry?: Expiration | null;
@@ -62,25 +49,6 @@ export type ActiveThreshold = {
   };
 };
 export type Decimal = string;
-export type TokenInfo = {
-  existing: {
-    address: string;
-    staking_contract: StakingInfo;
-  };
-} | {
-  new: {
-    code_id: number;
-    decimals: number;
-    initial_balances: Cw20Coin[];
-    initial_dao_balance?: Uint128 | null;
-    label: string;
-    marketing?: InstantiateMarketingInfo | null;
-    name: string;
-    staking_code_id: number;
-    symbol: string;
-    unstaking_duration?: Duration | null;
-  };
-};
 export type StakingInfo = {
   existing: {
     staking_contract_address: string;
@@ -111,25 +79,11 @@ export interface InstantiateMarketingInfo {
   marketing?: string | null;
   project?: string | null;
 }
-export interface ActiveThresholdResponse {
-  active_threshold?: ActiveThreshold | null;
-}
-export interface InfoResponse {
-  info: ContractVersion;
-}
 export interface ContractVersion {
   contract: string;
   version: string;
 }
 export type Boolean = boolean;
-export interface TotalPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
-}
-export interface VotingPowerAtHeightResponse {
-  height: number;
-  power: Uint128;
-}
 export type UncheckedDenom = {
   native: string;
 } | {
@@ -145,9 +99,6 @@ export interface DenomUnit {
 }
 export interface Coin {
   amount: Uint128;
-  denom: string;
-}
-export interface DenomResponse {
   denom: string;
 }
 export type CheckedDenom = {
@@ -327,32 +278,6 @@ export interface SingleChoiceProposeMsg {
   proposer?: string | null;
   title: string;
 }
-export interface Config {
-  allow_revoting: boolean;
-  close_proposal_on_execution_failure: boolean;
-  dao: Addr;
-  max_voting_period: Duration;
-  min_voting_period?: Duration | null;
-  only_members_execute: boolean;
-  threshold: Threshold;
-}
-export interface VoteResponse {
-  vote?: VoteInfo | null;
-}
-export interface VoteInfo {
-  power: Uint128;
-  rationale?: string | null;
-  vote: Vote;
-  voter: Addr;
-}
-export type Status = "open" | "rejected" | "passed" | "executed" | "closed" | "execution_failed";
-export interface ProposalListResponse {
-  proposals: ProposalResponse[];
-}
-export interface ProposalResponse {
-  id: number;
-  proposal: SingleChoiceProposal;
-}
 export interface SingleChoiceProposal {
   allow_revoting: boolean;
   description: string;
@@ -372,9 +297,6 @@ export interface Votes {
   no: Uint128;
   yes: Uint128;
 }
-export interface VoteListResponse {
-  votes: VoteInfo[];
-}
 export type ProposalCreationPolicy = {
   anyone: {};
 } | {
@@ -382,9 +304,6 @@ export type ProposalCreationPolicy = {
     addr: Addr;
   };
 };
-export interface HooksResponse {
-  hooks: string[];
-}
 export type DepositToken = {
   token: {
     denom: UncheckedDenom;
@@ -398,21 +317,10 @@ export interface UncheckedDepositInfo {
   denom: DepositToken;
   refund_policy: DepositRefundPolicy;
 }
-export type ProposeMessage = {
-  propose: {
-    description: string;
-    msgs: CosmosMsgForEmpty[];
-    title: string;
-  };
-};
 export interface CheckedDepositInfo {
   amount: Uint128;
   denom: CheckedDenom;
   refund_policy: DepositRefundPolicy;
-}
-export interface DepositInfoResponse {
-  deposit_info?: CheckedDepositInfo | null;
-  proposer: Addr;
 }
 export interface MultipleChoiceOptions {
   options: MultipleChoiceOption[];
@@ -421,5 +329,19 @@ export interface MultipleChoiceOption {
   description: string;
   msgs: CosmosMsgForEmpty[];
   title: string;
+}
+export type ProposeMessage = {
+  propose: {
+    description: string;
+    msgs: CosmosMsgForEmpty[];
+    title: string;
+  };
+};
+export type Status = "open" | "rejected" | "passed" | "executed" | "closed" | "execution_failed";
+export interface VoteInfo {
+  power: Uint128;
+  rationale?: string | null;
+  vote: Vote;
+  voter: Addr;
 }
 export { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";

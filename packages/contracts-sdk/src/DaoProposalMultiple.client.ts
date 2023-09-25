@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
-import {Duration, PreProposeInfo, Admin, Binary, PercentageThreshold, Decimal, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, MultipleChoiceOptions, MultipleChoiceOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr, Config, VoteResponse, VoteInfo, InfoResponse, ContractVersion, Expiration, Status, ProposalListResponse, ProposalResponse, VoteListResponse, ProposalCreationPolicy, HooksResponse} from "./types";
-import {VotingStrategy, InstantiateMsg, ExecuteMsg, MultipleChoiceVote, QueryMsg, MigrateMsg, MultipleChoiceOptionType, MultipleChoiceProposal, CheckedMultipleChoiceOption, MultipleChoiceVotes} from "./DaoProposalMultiple.types";
+import {Duration, PreProposeInfo, Admin, Binary, PercentageThreshold, Decimal, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, MultipleChoiceOptions, MultipleChoiceOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr, VoteInfo, ContractVersion, Expiration, Status, ProposalCreationPolicy} from "./types";
+import {VotingStrategy, InstantiateMsg, ExecuteMsg, MultipleChoiceVote, QueryMsg, MigrateMsg, Config, VoteResponse, InfoResponse, MultipleChoiceOptionType, ProposalListResponse, ProposalResponse, MultipleChoiceProposal, CheckedMultipleChoiceOption, MultipleChoiceVotes, VoteListResponse, HooksResponse} from "./DaoProposalMultiple.types";
 export interface DaoProposalMultipleReadOnlyInterface {
   contractAddress: string;
   config: () => Promise<Config>;

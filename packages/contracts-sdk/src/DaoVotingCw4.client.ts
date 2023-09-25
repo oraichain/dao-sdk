@@ -5,8 +5,8 @@
 */
 
 import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
-import {Addr, InfoResponse, ContractVersion, Uint128, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./types";
-import {GroupContract, InstantiateMsg, Member, ExecuteMsg, QueryMsg, MigrateMsg} from "./DaoVotingCw4.types";
+import {Addr, ContractVersion, Uint128} from "./types";
+import {GroupContract, InstantiateMsg, Member, ExecuteMsg, QueryMsg, MigrateMsg, InfoResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoVotingCw4.types";
 export interface DaoVotingCw4ReadOnlyInterface {
   contractAddress: string;
   groupContract: () => Promise<Addr>;

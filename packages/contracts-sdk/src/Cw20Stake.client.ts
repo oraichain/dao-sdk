@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {Duration, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, ClaimsResponse, Claim, Addr, Config, GetHooksResponse, ListStakersResponse, StakerBalanceResponse, OwnershipForAddr} from "./types";
-import {InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, StakedBalanceAtHeightResponse, StakedValueResponse, TotalStakedAtHeightResponse, TotalValueResponse} from "./Cw20Stake.types";
+import {Duration, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, Claim, Addr, OwnershipForAddr} from "./types";
+import {InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, ClaimsResponse, Config, GetHooksResponse, ListStakersResponse, StakerBalanceResponse, StakedBalanceAtHeightResponse, StakedValueResponse, TotalStakedAtHeightResponse, TotalValueResponse} from "./Cw20Stake.types";
 export interface Cw20StakeReadOnlyInterface {
   contractAddress: string;
   stakedBalanceAtHeight: ({

@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
-import {Uint128, DepositToken, UncheckedDenom, DepositRefundPolicy, UncheckedDepositInfo, Empty, ProposeMessage, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Status, Coin, IbcTimeout, IbcTimeoutBlock, CheckedDenom, Addr, Config, CheckedDepositInfo, DepositInfoResponse, HooksResponse} from "./types";
-import {InstantiateMsg, ExecuteMsg, QueryMsg} from "./DaoPreProposeSingle.types";
+import {Uint128, DepositToken, UncheckedDenom, DepositRefundPolicy, UncheckedDepositInfo, Empty, ProposeMessage, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Status, Coin, IbcTimeout, IbcTimeoutBlock, CheckedDenom, Addr, CheckedDepositInfo} from "./types";
+import {InstantiateMsg, ExecuteMsg, QueryMsg, Config, DepositInfoResponse, HooksResponse} from "./DaoPreProposeSingle.types";
 export interface DaoPreProposeSingleReadOnlyInterface {
   contractAddress: string;
   proposalModule: () => Promise<Addr>;

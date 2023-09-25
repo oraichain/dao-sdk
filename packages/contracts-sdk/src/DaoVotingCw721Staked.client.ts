@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {ActiveThreshold, Uint128, Decimal, Binary, Admin, Duration, Cw721ReceiveMsg, ActiveThresholdResponse, Addr, Config, HooksResponse, InfoResponse, ContractVersion, Boolean, Expiration, Timestamp, Uint64, ArrayOfString, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./types";
-import {NftContract, InstantiateMsg, ExecuteMsg, QueryMsg, NftClaimsResponse, NftClaim} from "./DaoVotingCw721Staked.types";
+import {ActiveThreshold, Uint128, Decimal, Binary, Admin, Duration, Cw721ReceiveMsg, Addr, ContractVersion, Boolean, Expiration, Timestamp, Uint64, ArrayOfString} from "./types";
+import {NftContract, InstantiateMsg, ExecuteMsg, QueryMsg, ActiveThresholdResponse, Config, HooksResponse, InfoResponse, NftClaimsResponse, NftClaim, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoVotingCw721Staked.types";
 export interface DaoVotingCw721StakedReadOnlyInterface {
   contractAddress: string;
   config: () => Promise<Config>;

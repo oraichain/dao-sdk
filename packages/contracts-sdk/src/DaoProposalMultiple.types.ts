@@ -1,4 +1,4 @@
-import {Duration, PreProposeInfo, Admin, Binary, PercentageThreshold, Decimal, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, MultipleChoiceOptions, MultipleChoiceOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr, Config, VoteResponse, VoteInfo, InfoResponse, ContractVersion, Expiration, Status, ProposalListResponse, ProposalResponse, VoteListResponse, ProposalCreationPolicy, HooksResponse} from "./types";
+import {Duration, PreProposeInfo, Admin, Binary, PercentageThreshold, Decimal, ModuleInstantiateInfo, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, MultipleChoiceOptions, MultipleChoiceOption, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Addr, VoteInfo, ContractVersion, Expiration, Status, ProposalCreationPolicy} from "./types";
 export type VotingStrategy = {
   single_choice: {
     quorum: PercentageThreshold;
@@ -123,7 +123,29 @@ export type MigrateMsg = {
 } | {
   from_compatible: {};
 };
+export interface Config {
+  allow_revoting: boolean;
+  close_proposal_on_execution_failure: boolean;
+  dao: Addr;
+  max_voting_period: Duration;
+  min_voting_period?: Duration | null;
+  only_members_execute: boolean;
+  voting_strategy: VotingStrategy;
+}
+export interface VoteResponse {
+  vote?: VoteInfo | null;
+}
+export interface InfoResponse {
+  info: ContractVersion;
+}
 export type MultipleChoiceOptionType = "standard" | "none";
+export interface ProposalListResponse {
+  proposals: ProposalResponse[];
+}
+export interface ProposalResponse {
+  id: number;
+  proposal: MultipleChoiceProposal;
+}
 export interface MultipleChoiceProposal {
   allow_revoting: boolean;
   choices: CheckedMultipleChoiceOption[];
@@ -148,4 +170,10 @@ export interface CheckedMultipleChoiceOption {
 }
 export interface MultipleChoiceVotes {
   vote_weights: Uint128[];
+}
+export interface VoteListResponse {
+  votes: VoteInfo[];
+}
+export interface HooksResponse {
+  hooks: string[];
 }

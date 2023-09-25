@@ -1,4 +1,4 @@
-import {Uint128, DepositToken, UncheckedDenom, DepositRefundPolicy, UncheckedDepositInfo, ProposeMessage, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Status, Coin, Empty, IbcTimeout, IbcTimeoutBlock, CheckedDenom, Addr, Config, CheckedDepositInfo, DepositInfoResponse, HooksResponse} from "./types";
+import {Uint128, DepositToken, UncheckedDenom, DepositRefundPolicy, UncheckedDepositInfo, ProposeMessage, CosmosMsgForEmpty, BankMsg, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Status, Coin, Empty, IbcTimeout, IbcTimeoutBlock, CheckedDenom, Addr, CheckedDepositInfo} from "./types";
 export interface InstantiateMsg {
   deposit_info?: UncheckedDepositInfo | null;
   extension: InstantiateExt;
@@ -85,3 +85,14 @@ export type QueryExt = {
     start_before?: number | null;
   };
 };
+export interface Config {
+  deposit_info?: CheckedDepositInfo | null;
+  open_proposal_submission: boolean;
+}
+export interface DepositInfoResponse {
+  deposit_info?: CheckedDepositInfo | null;
+  proposer: Addr;
+}
+export interface HooksResponse {
+  hooks: string[];
+}

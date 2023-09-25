@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {ActiveThreshold, Uint128, Decimal, TokenInfo, Duration, DenomUnit, ActiveThresholdResponse, Expiration, Timestamp, Uint64, ClaimsResponse, Claim, Addr, DenomResponse, Config, GetHooksResponse, InfoResponse, ContractVersion, Boolean, ListStakersResponse, StakerBalanceResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./types";
-import {InstantiateMsg, NewTokenInfo, InitialBalance, NewDenomMetadata, ExecuteMsg, QueryMsg, MigrateMsg} from "./DaoVotingTokenFactoryStaked.types";
+import {ActiveThreshold, Uint128, Decimal, Duration, DenomUnit, Expiration, Timestamp, Uint64, Claim, Addr, ContractVersion, Boolean} from "./types";
+import {TokenInfo, InstantiateMsg, NewTokenInfo, InitialBalance, NewDenomMetadata, ExecuteMsg, QueryMsg, MigrateMsg, ActiveThresholdResponse, ClaimsResponse, DenomResponse, Config, GetHooksResponse, InfoResponse, ListStakersResponse, StakerBalanceResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoVotingTokenFactoryStaked.types";
 export interface DaoVotingTokenFactoryStakedReadOnlyInterface {
   contractAddress: string;
   getConfig: () => Promise<Config>;

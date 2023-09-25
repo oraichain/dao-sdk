@@ -1,4 +1,4 @@
-import {Addr, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, InfoResponse, Config, OwnershipForAddr} from "./types";
+import {Addr, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, OwnershipForAddr} from "./types";
 export type Denom = {
   native: string;
 } | {
@@ -53,6 +53,14 @@ export interface PendingRewardsResponse {
   denom: Denom;
   last_update_block: number;
   pending_rewards: Uint128;
+}
+export interface InfoResponse {
+  config: Config;
+  reward: RewardConfig;
+}
+export interface Config {
+  reward_token: Denom;
+  staking_contract: Addr;
 }
 export interface RewardConfig {
   period_finish: number;

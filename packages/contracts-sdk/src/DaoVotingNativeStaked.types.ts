@@ -1,4 +1,4 @@
-import {ActiveThreshold, Uint128, Decimal, Duration, ActiveThresholdResponse, Expiration, Timestamp, Uint64, ClaimsResponse, Claim, Addr, Config, DenomResponse, GetHooksResponse, InfoResponse, ContractVersion, Boolean, ListStakersResponse, StakerBalanceResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./types";
+import {ActiveThreshold, Uint128, Decimal, Duration, Expiration, Timestamp, Uint64, Claim, Addr, ContractVersion, Boolean} from "./types";
 export interface InstantiateMsg {
   active_threshold?: ActiveThreshold | null;
   denom: string;
@@ -63,3 +63,37 @@ export type QueryMsg = {
   is_active: {};
 };
 export interface MigrateMsg {}
+export interface ActiveThresholdResponse {
+  active_threshold?: ActiveThreshold | null;
+}
+export interface ClaimsResponse {
+  claims: Claim[];
+}
+export interface Config {
+  denom: string;
+  unstaking_duration?: Duration | null;
+}
+export interface DenomResponse {
+  denom: string;
+}
+export interface GetHooksResponse {
+  hooks: string[];
+}
+export interface InfoResponse {
+  info: ContractVersion;
+}
+export interface ListStakersResponse {
+  stakers: StakerBalanceResponse[];
+}
+export interface StakerBalanceResponse {
+  address: string;
+  balance: Uint128;
+}
+export interface TotalPowerAtHeightResponse {
+  height: number;
+  power: Uint128;
+}
+export interface VotingPowerAtHeightResponse {
+  height: number;
+  power: Uint128;
+}

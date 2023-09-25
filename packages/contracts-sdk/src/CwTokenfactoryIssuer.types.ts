@@ -1,4 +1,4 @@
-import {Uint128, DenomUnit, Coin, DenomResponse} from "./types";
+import {Uint128, DenomUnit, Coin} from "./types";
 export type InstantiateMsg = {
   new_token: {
     subdenom: string;
@@ -182,6 +182,9 @@ export interface AllowancesResponse {
 export interface AllowanceInfo {
   address: string;
   allowance: Uint128;
+}
+export interface DenomResponse {
+  denom: string;
 }
 export interface FreezerAllowancesResponse {
   freezers: StatusInfo[];

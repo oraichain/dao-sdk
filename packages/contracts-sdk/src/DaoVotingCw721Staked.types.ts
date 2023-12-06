@@ -1,19 +1,6 @@
-import {ActiveThreshold, Uint128, Decimal, Binary, Admin, Duration, Cw721ReceiveMsg, Addr, ContractVersion, Boolean, Expiration, Timestamp, Uint64, ArrayOfString} from "./types";
-export type NftContract = {
-  existing: {
-    address: string;
-  };
-} | {
-  new: {
-    code_id: number;
-    initial_nfts: Binary[];
-    label: string;
-    msg: Binary;
-  };
-};
+import {Admin, Duration, Binary, Cw721ReceiveMsg, Addr, ContractVersion, Expiration, Timestamp, Uint64, ArrayOfString, Uint128} from "./types";
 export interface InstantiateMsg {
-  active_threshold?: ActiveThreshold | null;
-  nft_contract: NftContract;
+  nft_address: string;
   owner?: Admin | null;
   unstaking_duration?: Duration | null;
 }
@@ -38,10 +25,6 @@ export type ExecuteMsg = {
   remove_hook: {
     addr: string;
   };
-} | {
-  update_active_threshold: {
-    new_threshold?: ActiveThreshold | null;
-  };
 };
 export type QueryMsg = {
   config: {};
@@ -58,10 +41,6 @@ export type QueryMsg = {
     start_after?: string | null;
   };
 } | {
-  active_threshold: {};
-} | {
-  is_active: {};
-} | {
   voting_power_at_height: {
     address: string;
     height?: number | null;
@@ -75,9 +54,6 @@ export type QueryMsg = {
 } | {
   info: {};
 };
-export interface ActiveThresholdResponse {
-  active_threshold?: ActiveThreshold | null;
-}
 export interface Config {
   nft_address: Addr;
   owner?: Addr | null;

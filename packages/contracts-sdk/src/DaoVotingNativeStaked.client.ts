@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {ActiveThreshold, Uint128, Decimal, Duration, Expiration, Timestamp, Uint64, Claim, Addr, ContractVersion, Boolean} from "./types";
-import {InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, ActiveThresholdResponse, ClaimsResponse, Config, DenomResponse, GetHooksResponse, InfoResponse, ListStakersResponse, StakerBalanceResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoVotingNativeStaked.types";
+import {Admin, Duration, Uint128, Expiration, Timestamp, Uint64, Claim, Addr, ContractVersion} from "./types";
+import {InstantiateMsg, ExecuteMsg, QueryMsg, MigrateMsg, ClaimsResponse, Config, InfoResponse, ListStakersResponse, StakerBalanceResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoVotingNativeStaked.types";
 export interface DaoVotingNativeStakedReadOnlyInterface {
   contractAddress: string;
   getConfig: () => Promise<Config>;
@@ -16,7 +16,6 @@ export interface DaoVotingNativeStakedReadOnlyInterface {
   }: {
     address: string;
   }) => Promise<ClaimsResponse>;
-  getDenom: () => Promise<DenomResponse>;
   listStakers: ({
     limit,
     startAfter
@@ -24,8 +23,6 @@ export interface DaoVotingNativeStakedReadOnlyInterface {
     limit?: number;
     startAfter?: string;
   }) => Promise<ListStakersResponse>;
-  activeThreshold: () => Promise<ActiveThresholdResponse>;
-  getHooks: () => Promise<GetHooksResponse>;
   votingPowerAtHeight: ({
     address,
     height
@@ -40,7 +37,6 @@ export interface DaoVotingNativeStakedReadOnlyInterface {
   }) => Promise<TotalPowerAtHeightResponse>;
   dao: () => Promise<Addr>;
   info: () => Promise<InfoResponse>;
-  isActive: () => Promise<Boolean>;
 }
 export class DaoVotingNativeStakedQueryClient implements DaoVotingNativeStakedReadOnlyInterface {
   client: CosmWasmClient;
@@ -51,15 +47,11 @@ export class DaoVotingNativeStakedQueryClient implements DaoVotingNativeStakedRe
     this.contractAddress = contractAddress;
     this.getConfig = this.getConfig.bind(this);
     this.claims = this.claims.bind(this);
-    this.getDenom = this.getDenom.bind(this);
     this.listStakers = this.listStakers.bind(this);
-    this.activeThreshold = this.activeThreshold.bind(this);
-    this.getHooks = this.getHooks.bind(this);
     this.votingPowerAtHeight = this.votingPowerAtHeight.bind(this);
     this.totalPowerAtHeight = this.totalPowerAtHeight.bind(this);
     this.dao = this.dao.bind(this);
     this.info = this.info.bind(this);
-    this.isActive = this.isActive.bind(this);
   }
 
   getConfig = async (): Promise<Config> => {
@@ -78,11 +70,6 @@ export class DaoVotingNativeStakedQueryClient implements DaoVotingNativeStakedRe
       }
     });
   };
-  getDenom = async (): Promise<DenomResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      get_denom: {}
-    });
-  };
   listStakers = async ({
     limit,
     startAfter
@@ -95,16 +82,6 @@ export class DaoVotingNativeStakedQueryClient implements DaoVotingNativeStakedRe
         limit,
         start_after: startAfter
       }
-    });
-  };
-  activeThreshold = async (): Promise<ActiveThresholdResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      active_threshold: {}
-    });
-  };
-  getHooks = async (): Promise<GetHooksResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      get_hooks: {}
     });
   };
   votingPowerAtHeight = async ({
@@ -142,11 +119,6 @@ export class DaoVotingNativeStakedQueryClient implements DaoVotingNativeStakedRe
       info: {}
     });
   };
-  isActive = async (): Promise<Boolean> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      is_active: {}
-    });
-  };
 }
 export interface DaoVotingNativeStakedInterface extends DaoVotingNativeStakedReadOnlyInterface {
   contractAddress: string;
@@ -158,26 +130,15 @@ export interface DaoVotingNativeStakedInterface extends DaoVotingNativeStakedRea
     amount: Uint128;
   }, _fee?: number | StdFee | "auto", _memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   updateConfig: ({
-    duration
+    duration,
+    manager,
+    owner
   }: {
     duration?: Duration;
+    manager?: string;
+    owner?: string;
   }, _fee?: number | StdFee | "auto", _memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
   claim: (_fee?: number | StdFee | "auto", _memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  updateActiveThreshold: ({
-    newThreshold
-  }: {
-    newThreshold?: ActiveThreshold;
-  }, _fee?: number | StdFee | "auto", _memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  addHook: ({
-    addr
-  }: {
-    addr: string;
-  }, _fee?: number | StdFee | "auto", _memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  removeHook: ({
-    addr
-  }: {
-    addr: string;
-  }, _fee?: number | StdFee | "auto", _memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }
 export class DaoVotingNativeStakedClient extends DaoVotingNativeStakedQueryClient implements DaoVotingNativeStakedInterface {
   client: SigningCosmWasmClient;
@@ -193,9 +154,6 @@ export class DaoVotingNativeStakedClient extends DaoVotingNativeStakedQueryClien
     this.unstake = this.unstake.bind(this);
     this.updateConfig = this.updateConfig.bind(this);
     this.claim = this.claim.bind(this);
-    this.updateActiveThreshold = this.updateActiveThreshold.bind(this);
-    this.addHook = this.addHook.bind(this);
-    this.removeHook = this.removeHook.bind(this);
   }
 
   stake = async (_fee: number | StdFee | "auto" = "auto", _memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
@@ -215,52 +173,25 @@ export class DaoVotingNativeStakedClient extends DaoVotingNativeStakedQueryClien
     }, _fee, _memo, _funds);
   };
   updateConfig = async ({
-    duration
+    duration,
+    manager,
+    owner
   }: {
     duration?: Duration;
+    manager?: string;
+    owner?: string;
   }, _fee: number | StdFee | "auto" = "auto", _memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       update_config: {
-        duration
+        duration,
+        manager,
+        owner
       }
     }, _fee, _memo, _funds);
   };
   claim = async (_fee: number | StdFee | "auto" = "auto", _memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
     return await this.client.execute(this.sender, this.contractAddress, {
       claim: {}
-    }, _fee, _memo, _funds);
-  };
-  updateActiveThreshold = async ({
-    newThreshold
-  }: {
-    newThreshold?: ActiveThreshold;
-  }, _fee: number | StdFee | "auto" = "auto", _memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
-      update_active_threshold: {
-        new_threshold: newThreshold
-      }
-    }, _fee, _memo, _funds);
-  };
-  addHook = async ({
-    addr
-  }: {
-    addr: string;
-  }, _fee: number | StdFee | "auto" = "auto", _memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
-      add_hook: {
-        addr
-      }
-    }, _fee, _memo, _funds);
-  };
-  removeHook = async ({
-    addr
-  }: {
-    addr: string;
-  }, _fee: number | StdFee | "auto" = "auto", _memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
-      remove_hook: {
-        addr
-      }
     }, _fee, _memo, _funds);
   };
 }

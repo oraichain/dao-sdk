@@ -1,7 +1,8 @@
-import {ActiveThreshold, Uint128, Decimal, Duration, Expiration, Timestamp, Uint64, Claim, Addr, ContractVersion, Boolean} from "./types";
+import {Admin, Duration, Uint128, Expiration, Timestamp, Uint64, Claim, Addr, ContractVersion} from "./types";
 export interface InstantiateMsg {
-  active_threshold?: ActiveThreshold | null;
   denom: string;
+  manager?: string | null;
+  owner?: Admin | null;
   unstaking_duration?: Duration | null;
 }
 export type ExecuteMsg = {
@@ -13,21 +14,11 @@ export type ExecuteMsg = {
 } | {
   update_config: {
     duration?: Duration | null;
+    manager?: string | null;
+    owner?: string | null;
   };
 } | {
   claim: {};
-} | {
-  update_active_threshold: {
-    new_threshold?: ActiveThreshold | null;
-  };
-} | {
-  add_hook: {
-    addr: string;
-  };
-} | {
-  remove_hook: {
-    addr: string;
-  };
 };
 export type QueryMsg = {
   get_config: {};
@@ -36,16 +27,10 @@ export type QueryMsg = {
     address: string;
   };
 } | {
-  get_denom: {};
-} | {
   list_stakers: {
     limit?: number | null;
     start_after?: string | null;
   };
-} | {
-  active_threshold: {};
-} | {
-  get_hooks: {};
 } | {
   voting_power_at_height: {
     address: string;
@@ -59,25 +44,16 @@ export type QueryMsg = {
   dao: {};
 } | {
   info: {};
-} | {
-  is_active: {};
 };
 export interface MigrateMsg {}
-export interface ActiveThresholdResponse {
-  active_threshold?: ActiveThreshold | null;
-}
 export interface ClaimsResponse {
   claims: Claim[];
 }
 export interface Config {
   denom: string;
+  manager?: Addr | null;
+  owner?: Addr | null;
   unstaking_duration?: Duration | null;
-}
-export interface DenomResponse {
-  denom: string;
-}
-export interface GetHooksResponse {
-  hooks: string[];
 }
 export interface InfoResponse {
   info: ContractVersion;

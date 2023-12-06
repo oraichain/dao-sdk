@@ -4,9 +4,10 @@
 * and run the @oraichain/ts-codegen generate command to regenerate this file.
 */
 
-import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { Coin, StdFee } from "@cosmjs/amino";
 import {Addr, ContractVersion, Uint128} from "./types";
-import {GroupContract, InstantiateMsg, Member, ExecuteMsg, QueryMsg, MigrateMsg, InfoResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoVotingCw4.types";
+import {InstantiateMsg, Member, ExecuteMsg, MemberDiff, QueryMsg, MigrateMsg, InfoResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoVotingCw4.types";
 export interface DaoVotingCw4ReadOnlyInterface {
   contractAddress: string;
   groupContract: () => Promise<Addr>;
@@ -78,5 +79,39 @@ export class DaoVotingCw4QueryClient implements DaoVotingCw4ReadOnlyInterface {
     return this.client.queryContractSmart(this.contractAddress, {
       info: {}
     });
+  };
+}
+export interface DaoVotingCw4Interface extends DaoVotingCw4ReadOnlyInterface {
+  contractAddress: string;
+  sender: string;
+  memberChangedHook: ({
+    diffs
+  }: {
+    diffs: MemberDiff[];
+  }, _fee?: number | StdFee | "auto", _memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
+}
+export class DaoVotingCw4Client extends DaoVotingCw4QueryClient implements DaoVotingCw4Interface {
+  client: SigningCosmWasmClient;
+  sender: string;
+  contractAddress: string;
+
+  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
+    super(client, contractAddress);
+    this.client = client;
+    this.sender = sender;
+    this.contractAddress = contractAddress;
+    this.memberChangedHook = this.memberChangedHook.bind(this);
+  }
+
+  memberChangedHook = async ({
+    diffs
+  }: {
+    diffs: MemberDiff[];
+  }, _fee: number | StdFee | "auto" = "auto", _memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
+    return await this.client.execute(this.sender, this.contractAddress, {
+      member_changed_hook: {
+        diffs
+      }
+    }, _fee, _memo, _funds);
   };
 }

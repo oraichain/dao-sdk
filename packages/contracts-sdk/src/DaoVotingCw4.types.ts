@@ -1,22 +1,22 @@
 import {Addr, ContractVersion, Uint128} from "./types";
-export type GroupContract = {
-  existing: {
-    address: string;
-  };
-} | {
-  new: {
-    cw4_group_code_id: number;
-    initial_members: Member[];
-  };
-};
 export interface InstantiateMsg {
-  group_contract: GroupContract;
+  cw4_group_code_id: number;
+  initial_members: Member[];
 }
 export interface Member {
   addr: string;
   weight: number;
 }
-export type ExecuteMsg = string;
+export type ExecuteMsg = {
+  member_changed_hook: {
+    diffs: MemberDiff[];
+  };
+};
+export interface MemberDiff {
+  key: string;
+  new?: number | null;
+  old?: number | null;
+}
 export type QueryMsg = {
   group_contract: {};
 } | {

@@ -35,10 +35,6 @@ export interface OwnershipForAddr {
   pending_expiry?: Expiration | null;
   pending_owner?: Addr | null;
 }
-export interface MetadataExt {
-  role?: string | null;
-  weight: number;
-}
 export type ActiveThreshold = {
   absolute_count: {
     count: Uint128;
@@ -92,15 +88,6 @@ export type UncheckedDenom = {
 export type Schedule = "saturating_linear" | {
   piecewise_linear: [number, Uint128][];
 };
-export interface DenomUnit {
-  aliases: string[];
-  denom: string;
-  exponent: number;
-}
-export interface Coin {
-  amount: Uint128;
-  denom: string;
-}
 export type CheckedDenom = {
   native: string;
 } | {
@@ -230,6 +217,10 @@ export type GovMsg = {
   };
 };
 export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
+export interface Coin {
+  amount: Uint128;
+  denom: string;
+}
 export interface Empty {}
 export interface IbcTimeout {
   block?: IbcTimeoutBlock | null;
@@ -344,4 +335,22 @@ export interface VoteInfo {
   vote: Vote;
   voter: Addr;
 }
-export { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+export type TokenInfo = {
+  existing: {
+    address: string;
+    staking_contract: StakingInfo;
+  };
+} | {
+  new: {
+    code_id: number;
+    decimals: number;
+    initial_balances: Cw20Coin[];
+    initial_dao_balance?: Uint128 | null;
+    label: string;
+    marketing?: InstantiateMarketingInfo | null;
+    name: string;
+    staking_code_id: number;
+    symbol: string;
+    unstaking_duration?: Duration | null;
+  };
+};

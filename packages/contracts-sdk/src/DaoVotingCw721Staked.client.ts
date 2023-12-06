@@ -6,8 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import {ActiveThreshold, Uint128, Decimal, Binary, Admin, Duration, Cw721ReceiveMsg, Addr, ContractVersion, Boolean, Expiration, Timestamp, Uint64, ArrayOfString} from "./types";
-import {NftContract, InstantiateMsg, ExecuteMsg, QueryMsg, ActiveThresholdResponse, Config, HooksResponse, InfoResponse, NftClaimsResponse, NftClaim, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoVotingCw721Staked.types";
+import {Admin, Duration, Binary, Cw721ReceiveMsg, Addr, ContractVersion, Expiration, Timestamp, Uint64, ArrayOfString, Uint128} from "./types";
+import {InstantiateMsg, ExecuteMsg, QueryMsg, Config, HooksResponse, InfoResponse, NftClaimsResponse, NftClaim, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse} from "./DaoVotingCw721Staked.types";
 export interface DaoVotingCw721StakedReadOnlyInterface {
   contractAddress: string;
   config: () => Promise<Config>;
@@ -26,8 +26,6 @@ export interface DaoVotingCw721StakedReadOnlyInterface {
     limit?: number;
     startAfter?: string;
   }) => Promise<ArrayOfString>;
-  activeThreshold: () => Promise<ActiveThresholdResponse>;
-  isActive: () => Promise<Boolean>;
   votingPowerAtHeight: ({
     address,
     height
@@ -54,8 +52,6 @@ export class DaoVotingCw721StakedQueryClient implements DaoVotingCw721StakedRead
     this.nftClaims = this.nftClaims.bind(this);
     this.hooks = this.hooks.bind(this);
     this.stakedNfts = this.stakedNfts.bind(this);
-    this.activeThreshold = this.activeThreshold.bind(this);
-    this.isActive = this.isActive.bind(this);
     this.votingPowerAtHeight = this.votingPowerAtHeight.bind(this);
     this.totalPowerAtHeight = this.totalPowerAtHeight.bind(this);
     this.dao = this.dao.bind(this);
@@ -98,16 +94,6 @@ export class DaoVotingCw721StakedQueryClient implements DaoVotingCw721StakedRead
         limit,
         start_after: startAfter
       }
-    });
-  };
-  activeThreshold = async (): Promise<ActiveThresholdResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      active_threshold: {}
-    });
-  };
-  isActive = async (): Promise<Boolean> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      is_active: {}
     });
   };
   votingPowerAtHeight = async ({
@@ -181,11 +167,6 @@ export interface DaoVotingCw721StakedInterface extends DaoVotingCw721StakedReadO
   }: {
     addr: string;
   }, _fee?: number | StdFee | "auto", _memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
-  updateActiveThreshold: ({
-    newThreshold
-  }: {
-    newThreshold?: ActiveThreshold;
-  }, _fee?: number | StdFee | "auto", _memo?: string, _funds?: Coin[]) => Promise<ExecuteResult>;
 }
 export class DaoVotingCw721StakedClient extends DaoVotingCw721StakedQueryClient implements DaoVotingCw721StakedInterface {
   client: SigningCosmWasmClient;
@@ -203,7 +184,6 @@ export class DaoVotingCw721StakedClient extends DaoVotingCw721StakedQueryClient 
     this.updateConfig = this.updateConfig.bind(this);
     this.addHook = this.addHook.bind(this);
     this.removeHook = this.removeHook.bind(this);
-    this.updateActiveThreshold = this.updateActiveThreshold.bind(this);
   }
 
   receiveNft = async ({
@@ -272,17 +252,6 @@ export class DaoVotingCw721StakedClient extends DaoVotingCw721StakedQueryClient 
     return await this.client.execute(this.sender, this.contractAddress, {
       remove_hook: {
         addr
-      }
-    }, _fee, _memo, _funds);
-  };
-  updateActiveThreshold = async ({
-    newThreshold
-  }: {
-    newThreshold?: ActiveThreshold;
-  }, _fee: number | StdFee | "auto" = "auto", _memo?: string, _funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
-      update_active_threshold: {
-        new_threshold: newThreshold
       }
     }, _fee, _memo, _funds);
   };
